@@ -1,11 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route />
-      </Routes>
+      <div className="w-full h-screen">
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
