@@ -19,11 +19,12 @@ export const login = async (req: Request, res: Response) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       maxAge: 3600000, // 1 hour
+      sameSite: "none",
     });
 
-    res.status(200).json({ message: "Login successful!" });
+    res.status(200).json({ user, token, message: "Login successful!" });
   } catch (error) {
     console.error("Error during login:", error);
   }
