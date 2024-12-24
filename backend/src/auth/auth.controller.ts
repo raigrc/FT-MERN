@@ -9,23 +9,22 @@ export const login = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ email });
 
-    if (!user) {
-      res.status(404).json({ message: "Invalid email or password" });
-    }
-
     const passwordMatch = await bcrypt.compare(password, user?.password!);
-    if (!passwordMatch) {
-      res.status(404).json({ message: "Invalid email or password" });
+    if (!user || !passwordMatch) {
+      return;
     }
+    const token = jwt.sign({ _id: user?._id }, process.env.JWT_SECRET!, {
+      expiresIn: "1h",
+    });
 
-    const token = jwt.sign(
-      { _id: user?._id },
-      process.env.JWT_SECRET!,
-      { expiresIn: "1h" }
-    );
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 3600000, // 1 hour
+    });
 
-    res.status(200).json({ token, message: "Login successful!" });
+    res.status(200).json({ message: "Login successful!" });
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error", error: error });
+    console.error("Error during login:", error);
   }
 };
