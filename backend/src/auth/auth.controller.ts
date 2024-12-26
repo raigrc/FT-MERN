@@ -24,13 +24,24 @@ export const login = async (req: Request, res: Response): Promise<any> => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
       maxAge: 3600000, // 1 hour
       sameSite: "lax",
-      path: "/",
     });
 
     res.status(200).json({ user, token, message: "Login successful!" });
+  } catch (error) {
+    console.error("Error during login:", error);
+  }
+};
+
+export const verifyToken = (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: "Unauthorized!" });
+      return;
+    }
+    res.status(200).json({ user: req.user });
   } catch (error) {
     console.error("Error during login:", error);
   }

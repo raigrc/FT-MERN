@@ -5,7 +5,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const options = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: ExtractJwt.fromExtractors([
+    (req) => req.cookies.token || null,
+  ]),
   secretOrKey: process.env.JWT_SECRET!,
 };
 
