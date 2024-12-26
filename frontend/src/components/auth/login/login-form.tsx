@@ -8,9 +8,12 @@ import ErrorMessage from "../error-message";
 import { useState, useTransition } from "react";
 import { axiosLogin } from "@/api/axios.login";
 import { useUserStore } from "@/store/useUserStore";
+import { useAuthStore } from "@/store/useAuthStore";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const { setUser } = useUserStore();
+  const { setToken } = useAuthStore();
   const [error, setError] = useState("");
   const {
     register,
@@ -20,15 +23,18 @@ const LoginForm = () => {
   } = useForm<LoginSchemaType>({ resolver: zodResolver(LoginSchema) });
 
   const [isPending, startTransition] = useTransition();
+  const navigate = useNavigate();
 
   const onSubmit = (values: LoginSchemaType) => {
     startTransition(() => {
       axiosLogin(values).then((response) => {
-        if (!response?.data) {
-          setError("Invalid Email or Password!");
+        if (!response?.data || response.status !== 200) {
+          setError(response?.data.message);
           resetField("password");
         } else {
           setUser(response.data.user);
+          setToken(response.data.token);
+          navigate("/dashboard");
         }
       });
     });

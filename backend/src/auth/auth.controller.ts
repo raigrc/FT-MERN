@@ -3,7 +3,6 @@ import User from "../users/users.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { IUser } from "../users/users.interface";
-import { exit } from "process";
 
 export const login = async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
@@ -11,12 +10,12 @@ export const login = async (req: Request, res: Response): Promise<any> => {
   try {
     const user: IUser | null = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "Invalid Email or Password!" });
+      return res.status(404).json({ message: "Email not found!" });
     }
 
     const passwordMatch = await bcrypt.compare(password, user?.password!);
     if (!passwordMatch) {
-      return res.status(404).json({ message: "Invalid Email or Password!" });
+      return res.status(404).json({ message: "Invalid Password!" });
     }
 
     const token = jwt.sign({ _id: user?._id }, process.env.JWT_SECRET!, {
@@ -31,7 +30,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
       path: "/",
     });
 
-    res.status(200).json({ user, message: "Login successful!" });
+    res.status(200).json({ user, token, message: "Login successful!" });
   } catch (error) {
     console.error("Error during login:", error);
   }
