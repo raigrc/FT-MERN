@@ -5,9 +5,15 @@ interface IUser {
   user: UserProps | null;
   setUser: (user: UserProps) => void;
   clearUser: () => void;
+
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 }
 export const useUserStore = create<IUser>((set) => ({
   user: null,
-  setUser: (user) => set({ user }),
-  clearUser: () => set({ user: null }),
+  setUser: (user) => set({ user, loading: false }),
+  clearUser: () => set({ user: null, loading: false }),
+
+  loading: true,
+  setLoading: (loading) => set({ loading }),
 }));
