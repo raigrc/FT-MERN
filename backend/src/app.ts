@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import userRoutes from "./users/users.route";
 import authRoutes from "./auth/auth.route";
+import categoryRoutes from "./categories/categories.route";
 import passport from "./config/passport.config";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use(cookieParser());
 
+app.use("/api/category", categoryRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
