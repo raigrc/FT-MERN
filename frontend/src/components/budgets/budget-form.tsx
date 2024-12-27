@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import { BudgetSchema, BudgetSchemaType } from "@/schema/BudgetSchema";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/api/axios.instance";
-
+import { ICategory } from "@/types/category.types";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -11,19 +12,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ICategory } from "@/types/category.types";
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 const CategoryForm = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    resetField,
-  } = useForm<BudgetSchemaType>({
+  const form = useForm<BudgetSchemaType>({
     resolver: zodResolver(BudgetSchema),
   });
 
@@ -43,27 +44,36 @@ const CategoryForm = () => {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label>Category</Label>
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Select Category" />
-            </SelectTrigger>
-            <SelectContent>
-              {categories.map((category) => (
-                <SelectItem key={category._id} value={category._id}>
-                  {category.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="categoryId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Category" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {categories.map((category) => (
+                    <SelectItem key={category._id} value={category._id}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <Button type="submit">Submit</Button>
-    </form>
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
   );
 };
 
