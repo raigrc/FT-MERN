@@ -12,6 +12,13 @@ export const createCategory = async (req: Request, res: Response) => {
       return;
     }
 
+    if (type !== "income" || type !== "expense") {
+      res
+        .status(400)
+        .json({ message: "Category type must be income or expense!" });
+      return;
+    }
+
     const category = new Category({ userId, name, type });
     await category.save();
 
@@ -53,6 +60,13 @@ export const findOneCategory = async (req: Request, res: Response) => {
 export const updateCategory = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+
+    if (req.body.type !== "income" && req.body.type !== "expense") {
+      res
+        .status(400)
+        .json({ message: "Category type must be income or expense!" });
+      return;
+    }
 
     const category = await Category.findByIdAndUpdate(id, req.body, {
       new: true,
