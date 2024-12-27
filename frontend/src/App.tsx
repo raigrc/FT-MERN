@@ -6,6 +6,7 @@ import { verify } from "./api/axios.verify";
 import { useUserStore } from "./store/useUserStore";
 import AuthRoute from "./components/auth/auth-route";
 import PrivateRoute from "./components/auth/private-route";
+import CategoryPage from "./pages/CategoryPage";
 
 function App() {
   const { setUser, clearUser } = useUserStore();
@@ -26,13 +27,14 @@ function App() {
 
   return (
     <Router>
-      <div className="w-full h-screen">
+      <div className="h-screen w-full">
         <Routes>
           <Route element={<AuthRoute />}>
             <Route path="/login" element={<LoginPage />} />
           </Route>
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/add-category" element={<CategoryPage />} />
           </Route>
         </Routes>
       </div>

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { AuthLayoutProps } from "@/types/auth.types";
 import React from "react";
+import CardWrapper from "../shared/card-wrapper";
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({
   title,
@@ -17,16 +18,19 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
 }) => {
   return (
     <div className="flex items-center justify-center h-full">
-      <Card className="min-w-[350px]">
-        <CardHeader className="text-center">
-          <CardTitle className="text-3xl">{title}</CardTitle>
+      <CardWrapper title={title} description={description} footer={footer}>
+        {children}
+      </CardWrapper>
+      {/* <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>{children}</CardContent>
         <CardFooter className="flex items-center justify-center">
           {footer}
         </CardFooter>
-      </Card>
+      </Card> */}
     </div>
   );
 };
