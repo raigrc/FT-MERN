@@ -4,8 +4,8 @@ import { IBudget } from "./budget.interface";
 
 export const createBudget = async (req: Request, res: Response) => {
   try {
-    const { categoryId, amount, start_date, end_date } = req.body;
-    const userId = (req.user as { _id: string })._id;
+    const { userId, categoryId, amount, start_date, end_date } = req.body;
+    // const userId = (req.user as { _id: string })._id;
 
     const budget = new Budget({
       userId,
@@ -14,6 +14,8 @@ export const createBudget = async (req: Request, res: Response) => {
       start_date,
       end_date,
     });
+
+    await budget.save();
 
     res.status(200).json({ budget, message: "Successfully added budget!" });
   } catch (error) {

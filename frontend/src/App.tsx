@@ -34,7 +34,7 @@ function App() {
           </Route>
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/add-category" element={<CategoryPage />} />
+            <Route path="/add-budget" element={<CategoryPage />} />
           </Route>
         </Routes>
       </div>
