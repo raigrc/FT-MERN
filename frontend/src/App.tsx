@@ -6,6 +6,7 @@ import { verify } from "./api/axios.verify";
 import { useUserStore } from "./store/useUserStore";
 import AuthRoute from "./components/auth/auth-route";
 import PrivateRoute from "./components/auth/private-route";
+import BudgetPage from "./pages/BudgetPage";
 import CategoryPage from "./pages/CategoryPage";
 
 function App() {
@@ -34,7 +35,8 @@ function App() {
           </Route>
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/add-budget" element={<CategoryPage />} />
+            <Route path="/add-budget" element={<BudgetPage />} />
+            <Route path="/add-category" element={<CategoryPage />} />
           </Route>
         </Routes>
       </div>

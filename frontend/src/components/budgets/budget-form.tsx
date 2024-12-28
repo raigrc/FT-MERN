@@ -31,7 +31,7 @@ import { useUserStore } from "@/store/useUserStore";
 import { format } from "date-fns";
 import { Calendar } from "../ui/calendar";
 
-const CategoryForm = () => {
+const BudgetForm = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [isPending, startTransition] = useTransition();
   const { user } = useUserStore();
@@ -171,4 +171,4 @@ const CategoryForm = () => {
   );
 };
 
-export default CategoryForm;
+export default BudgetForm;

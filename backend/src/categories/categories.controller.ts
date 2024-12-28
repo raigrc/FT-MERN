@@ -4,15 +4,14 @@ import { ICategory } from "./categories.interface";
 
 export const createCategory = async (req: Request, res: Response) => {
   try {
-    const { name, type } = req.body;
-    const userId = (req.user as { _id: string })._id;
+    const { userId, name, type } = req.body;
 
     if (!name || !type) {
       res.status(400).json({ message: "All fields are required!" });
       return;
     }
 
-    if (type !== "income" || type !== "expense") {
+    if (type !== "income" && type !== "expense") {
       res
         .status(400)
         .json({ message: "Category type must be income or expense!" });

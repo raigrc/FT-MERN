@@ -1,12 +1,12 @@
-import CategoryForm from "@/components/budgets/budget-form";
-import BudgetLayout from "@/components/budgets/budget-layout";
+import CategoryForm from "@/components/category/category-form";
+import CategoryLayout from "@/components/category/category-layout";
 
 const CategoryPage = () => {
   return (
     <>
-      <BudgetLayout>
+      <CategoryLayout>
         <CategoryForm />
-      </BudgetLayout>
+      </CategoryLayout>
     </>
   );
 };
