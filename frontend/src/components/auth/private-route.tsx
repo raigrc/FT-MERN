@@ -1,5 +1,6 @@
 import { useUserStore } from "@/store/useUserStore";
 import { Navigate, Outlet } from "react-router-dom";
+import Sidebar from "../sidebar/sidebar";
 
 const PrivateRoute = () => {
   const { user, loading } = useUserStore();
@@ -11,7 +12,12 @@ const PrivateRoute = () => {
   if (!user) {
     return <Navigate to="/login" />;
   }
-  return <Outlet />;
+  return (
+    <div className="flex flex-row justify-between h-full">
+      <Sidebar />
+      <Outlet />
+    </div>
+  );
 };
 
 export default PrivateRoute;

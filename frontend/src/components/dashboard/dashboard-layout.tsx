@@ -1,6 +1,5 @@
-
 const DashboardLayout = () => {
-  return <div>DashboardLayout</div>;
+  return <div className="w-full">DashboardLayout</div>;
 };
 
 export default DashboardLayout;

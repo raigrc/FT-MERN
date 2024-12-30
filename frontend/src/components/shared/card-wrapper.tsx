@@ -22,9 +22,11 @@ const CardWrapper: React.FC<CardWrapperProps> = ({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>{children}</CardContent>
-      <CardFooter className="flex items-center justify-center">
-        {footer}
-      </CardFooter>
+      {footer && (
+        <CardFooter className="flex items-center justify-center">
+          {footer}
+        </CardFooter>
+      )}
     </Card>
   );
 };
