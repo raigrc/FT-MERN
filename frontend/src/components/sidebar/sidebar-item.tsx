@@ -14,10 +14,10 @@ const SidebarItem = ({
     <NavLink
       to={href}
       className={({ isActive }) =>
-        `mt-4 flex items-center ${isActive ? "font-bold text-primary" : ""}`
+        `flex items-center rounded-lg px-4 py-2 hover:bg-gray-700/20 ${isActive ? "bg-gray-500/20 font-bold text-primary" : ""}`
       }
     >
-      <span className="mx-2">{icon}</span>
+      <span className="mr-4">{icon}</span>
       <h1 className="text-sm">{name}</h1>
     </NavLink>
   );

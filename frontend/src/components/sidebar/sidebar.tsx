@@ -6,7 +6,7 @@ const Sidebar = () => {
   return (
     <div className="min-w-[250px] space-y-6 overflow-auto border-r-2 px-2 py-6">
       <SidebarHeader name="Raven Justin Garcia" email="example@gmail.com" />
-      <div>
+      <div className="space-y-1">
         {items.map((item) => (
           <SidebarItem
             key={item.name}

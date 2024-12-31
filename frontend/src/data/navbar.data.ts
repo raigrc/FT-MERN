@@ -2,6 +2,7 @@ import { TbDashboard } from "react-icons/tb";
 import { BiCategory } from "react-icons/bi";
 import { LuCreditCard } from "react-icons/lu";
 import { AiOutlinePieChart } from "react-icons/ai";
+import { RiSettings4Line } from "react-icons/ri";
 
 export const items = [
   {
@@ -23,5 +24,10 @@ export const items = [
     name: "Transactions",
     href: "/transactions",
     icon: LuCreditCard,
+  },
+  {
+    name: "Settings",
+    href: "/settings",
+    icon: RiSettings4Line,
   },
 ];
