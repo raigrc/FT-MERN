@@ -9,6 +9,7 @@ import userRoutes from "./users/users.routes";
 import authRoutes from "./auth/auth.route";
 import categoryRoutes from "./categories/categories.routes";
 import budgetRoutes from "./budgets/budget.routes";
+import balanceRoutes from "./balance/balance.routes";
 
 dotenv.config();
 const app = express();
@@ -26,5 +27,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/budgets", budgetRoutes);
+app.use("/api/balance", balanceRoutes);
 
 export default app;
