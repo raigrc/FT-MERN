@@ -25,7 +25,7 @@ export const findAllTransactions = async (req: Request, res: Response) => {
       return;
     }
 
-    res.status(200).json({});
+    res.status(200).json({ transactions });
   } catch (error) {
     res.status(500).json({
       error: error instanceof Error ? error.message : "Unknown error!",
