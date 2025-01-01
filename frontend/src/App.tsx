@@ -8,6 +8,8 @@ import AuthRoute from "./components/auth/auth-route";
 import PrivateRoute from "./components/auth/private-route";
 import BudgetPage from "./pages/BudgetPage";
 import CategoryPage from "./pages/CategoryPage";
+import TransactionPage from "./pages/Transactions/TransactionPage";
+import AddTransaction from "./pages/Transactions/AddTransaction";
 
 function App() {
   const { setUser, clearUser } = useUserStore();
@@ -37,6 +39,9 @@ function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/add-budget" element={<BudgetPage />} />
             <Route path="/add-category" element={<CategoryPage />} />
+            <Route path="/transactions" element={<TransactionPage />}>
+              <Route path="add-transaction" element={<AddTransaction />} />
+            </Route>
           </Route>
         </Routes>
       </div>
