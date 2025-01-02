@@ -1,12 +1,22 @@
-import CategoryForm from "@/components/category/category-form";
-import CategoryLayout from "@/components/category/category-layout";
+import AddCategory from "@/components/category/add-category";
+import {
+  PrivateContent,
+  PrivateHeader,
+  PrivateLayout,
+  PrivateTitle,
+} from "@/components/shared/private-layout";
 
 const CategoryPage = () => {
   return (
     <>
-      <CategoryLayout>
-        <CategoryForm />
-      </CategoryLayout>
+      <PrivateLayout>
+        <PrivateHeader className="space-y-4">
+          <PrivateTitle>Budgets</PrivateTitle>
+          <AddCategory />
+        </PrivateHeader>
+        <PrivateContent>
+        </PrivateContent>
+      </PrivateLayout>
     </>
   );
 };

@@ -29,7 +29,7 @@ function App() {
 
   return (
     <Router>
-      <div className="w-full h-screen">
+      <div className="h-screen w-full">
         <Routes>
           <Route element={<AuthRoute />}>
             <Route path="/login" element={<LoginPage />} />
@@ -37,7 +37,7 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/budgets" element={<BudgetPage />} />
-            <Route path="/add-category" element={<CategoryPage />} />
+            <Route path="/categories" element={<CategoryPage />} />
             <Route path="/transactions" element={<TransactionPage />} />
           </Route>
         </Routes>
