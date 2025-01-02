@@ -51,6 +51,7 @@ const BudgetForm = () => {
               <SelectCategories
                 onChange={field.onChange}
                 defaultValue={field.value}
+                type="expense"
               />
               <FormMessage />
             </FormItem>

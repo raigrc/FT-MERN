@@ -30,7 +30,12 @@ export const createCategory = async (req: Request, res: Response) => {
 };
 export const findAllCategories = async (req: Request, res: Response) => {
   try {
-    const categories: ICategory[] = await Category.find();
+    const userId = (req.user as { _id: string })._id;
+    const { type } = req.query;
+    const categories: ICategory[] = await Category.find({
+      userId,
+      ...(type ? { type } : {}),
+    });
 
     res.status(200).json({ categories });
   } catch (error) {
