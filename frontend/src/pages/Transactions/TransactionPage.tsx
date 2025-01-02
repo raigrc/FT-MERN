@@ -4,19 +4,16 @@ import {
   PrivateLayout,
   PrivateTitle,
 } from "@/components/shared/private-layout";
-import { Button } from "@/components/ui/button";
 import { Outlet } from "react-router-dom";
-import { CiCirclePlus } from "react-icons/ci";
+
+import AddTransaction from "./AddTransaction";
 
 const TransactionPage = () => {
   return (
     <PrivateLayout>
       <PrivateHeader className="space-y-4">
         <PrivateTitle>Transactions</PrivateTitle>
-        <Button>
-          <CiCirclePlus />
-          Add Transaction
-        </Button>
+        <AddTransaction />
       </PrivateHeader>
       <PrivateContent>
         <Outlet />
