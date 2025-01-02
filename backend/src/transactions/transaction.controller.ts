@@ -1,10 +1,27 @@
 import { Request, Response } from "express";
 import Transaction from "./transaction.model";
 import { ITransaction } from "./transaction.interface";
+import Category from "../categories/categories.model";
+import Budget from "../budgets/budget.model";
 
 export const createTransaction = async (req: Request, res: Response) => {
   try {
-    const transaction = new Transaction(req.body);
+    const { categoryId, transaction_date, amount } = req.body;
+    const transaction: ITransaction | null = new Transaction(req.body);
+    const category = await Category.findById(categoryId);
+    const budget = await Budget.findOne({
+      categoryId: category?._id,
+      amount: { $gte: amount },
+      start_date: { $lte: transaction_date },
+      end_date: { $gte: transaction_date },
+    });
+
+    if (!budget) {
+      res
+        .status(400)
+        .json({ message: "You do not have budget for this transaction!" });
+      return;
+    }
     await transaction.save();
     res
       .status(200)
