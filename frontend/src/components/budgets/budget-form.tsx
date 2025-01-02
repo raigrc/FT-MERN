@@ -1,17 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { BudgetSchema, BudgetSchemaType } from "@/schema/BudgetSchema";
-import { useEffect, useState, useTransition } from "react";
-import axiosInstance from "@/api/axios.instance";
-import { ICategory } from "@/types/category.types";
+import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Form,
   FormControl,
@@ -33,7 +24,6 @@ import { Calendar } from "../ui/calendar";
 import SelectCategories from "../shared/select-categories";
 
 const BudgetForm = () => {
-  const [categories, setCategories] = useState<ICategory[]>([]);
   const [isPending, startTransition] = useTransition();
   const { user } = useUserStore();
 
@@ -48,17 +38,6 @@ const BudgetForm = () => {
       addBudget(userId, values);
     });
   };
-
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const response = await axiosInstance.get("/category");
-
-        setCategories(response.data.categories);
-      } catch (error) {}
-    };
-    getCategories();
-  }, []);
 
   return (
     <Form {...form}>

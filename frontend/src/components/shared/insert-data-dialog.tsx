@@ -1,4 +1,3 @@
-import TransactionForm from "@/components/transactions/transactions-form";
 import { Button } from "@/components/ui/button";
 import { CiCirclePlus } from "react-icons/ci";
 import {
@@ -9,12 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import React from "react";
-
-export interface InsertDataProps {
-  buttonTitle: string;
-  title: string;
-  children: React.ReactNode;
-}
+import { InsertDataProps } from "@/types/insert-data.types";
 
 const InsertData: React.FC<InsertDataProps> = ({
   buttonTitle,

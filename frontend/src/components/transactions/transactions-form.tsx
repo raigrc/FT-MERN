@@ -1,4 +1,4 @@
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import {
   Form,
   FormControl,
@@ -14,15 +14,6 @@ import {
 } from "@/schema/TransactionSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
-import axiosInstance from "@/api/axios.instance";
-import { ICategory } from "@/types/category.types";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { useUserStore } from "@/store/useUserStore";
