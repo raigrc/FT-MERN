@@ -1,9 +1,10 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatCurrency } from "@/lib/format-currency";
 interface DashboardCardProps {
   title: string;
   icon: React.ReactNode;
-  amount?: string;
+  amount?: number;
 }
 const DashboardCard: React.FC<DashboardCardProps> = ({
   title,
@@ -19,7 +20,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
         </div>
       </CardHeader>
       <CardContent>
-        <CardTitle>{amount}</CardTitle>
+        <CardTitle>{formatCurrency(amount)}</CardTitle>
       </CardContent>
     </Card>
   );
