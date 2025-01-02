@@ -27,14 +27,18 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { useUserStore } from "@/store/useUserStore";
 import { addTransaction } from "@/api/axios.addTransaction";
+import ErrorMessage from "../auth/error-message";
 
 const TransactionForm = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState("");
   const { user } = useUserStore();
   const form = useForm<TransactionSchemaType>({
     resolver: zodResolver(TransactionSchema),
     defaultValues: {
+      amount: "" as any,
+      description: "",
       transaction_date: new Date(),
     },
   });
@@ -58,14 +62,12 @@ const TransactionForm = () => {
       try {
         const userId = user?._id;
 
-        addTransaction(userId, values).then((data) => {
-          if (data?.success) {
-            console.log(data?.message);
-            form.reset();
-          } else {
-            console.log(data?.message);
-            form.resetField("amount");
+        addTransaction(userId, values).then((response) => {
+          if (!response?.success) {
+            setError(response?.message);
           }
+
+          form.reset();
         });
       } catch (error) {
         console.error("Error adding transaction", error);
@@ -108,7 +110,7 @@ const TransactionForm = () => {
             <FormItem>
               <FormLabel>Amount</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} value={field.value} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -128,6 +130,7 @@ const TransactionForm = () => {
             </FormItem>
           )}
         />
+        <ErrorMessage message={error} />
         <div className="w-full text-right">
           <Button type="submit">
             {isPending ? "Loading..." : "Add Transaction"}

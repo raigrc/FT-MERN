@@ -1,5 +1,6 @@
 import { TransactionSchemaType } from "@/schema/TransactionSchema";
 import axiosInstance from "./axios.instance";
+import axios from "axios";
 
 export const addTransaction = async (
   userId: string | undefined,
@@ -13,8 +14,17 @@ export const addTransaction = async (
         return { success: true, message: "Transaction added successfully" };
       });
   } catch (error) {
-    console.error("Error during adding budget!", error);
-    return { success: false, message: "Failed to add transaction" };
+    if (axios.isAxiosError(error)) {
+      return {
+        success: false,
+        message: error.response?.data.message || "An error occurred",
+      };
+    } else {
+      return {
+        success: false,
+        message: "Unknown error during adding transaction!",
+      };
+    }
   }
   return;
 };
