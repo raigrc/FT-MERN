@@ -8,9 +8,13 @@ export const addTransaction = async (
   try {
     await axiosInstance
       .post("/transactions", { userId, ...data })
-      .then((response) => console.log("Transaction added:", response));
+      .then((response) => {
+        console.log("Transaction added:", response);
+        return { success: true, message: "Transaction added successfully" };
+      });
   } catch (error) {
     console.error("Error during adding budget!", error);
-    return null;
+    return { success: false, message: "Failed to add transaction" };
   }
+  return;
 };

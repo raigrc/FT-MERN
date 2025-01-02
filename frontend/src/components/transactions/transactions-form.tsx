@@ -55,9 +55,21 @@ const TransactionForm = () => {
 
   const onSubmit = (values: TransactionSchemaType) => {
     startTransition(() => {
-      const userId = user?._id;
+      try {
+        const userId = user?._id;
 
-      addTransaction(userId, values);
+        addTransaction(userId, values).then((data) => {
+          if (data?.success) {
+            console.log(data?.message);
+            form.reset();
+          } else {
+            console.log(data?.message);
+            form.resetField("amount");
+          }
+        });
+      } catch (error) {
+        console.error("Error adding transaction", error);
+      }
     });
   };
 
@@ -117,7 +129,9 @@ const TransactionForm = () => {
           )}
         />
         <div className="w-full text-right">
-          <Button type="submit">Add Transaction</Button>
+          <Button type="submit">
+            {isPending ? "Loading..." : "Add Transaction"}
+          </Button>
         </div>
       </form>
     </Form>
