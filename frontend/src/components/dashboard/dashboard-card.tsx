@@ -3,12 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 interface DashboardCardProps {
   title: string;
   icon: React.ReactNode;
-  value?: string;
+  amount?: string;
 }
 const DashboardCard: React.FC<DashboardCardProps> = ({
   title,
   icon,
-  value,
+  amount = 0,
 }) => {
   return (
     <Card className="w-full">
@@ -19,7 +19,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
         </div>
       </CardHeader>
       <CardContent>
-        <CardTitle>{value}</CardTitle>
+        <CardTitle>{amount}</CardTitle>
       </CardContent>
     </Card>
   );
