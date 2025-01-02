@@ -30,6 +30,7 @@ import { addBudget } from "@/api/axios.addBudget";
 import { useUserStore } from "@/store/useUserStore";
 import { format } from "date-fns";
 import { Calendar } from "../ui/calendar";
+import SelectCategories from "../shared/select-categories";
 
 const BudgetForm = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
@@ -68,20 +69,10 @@ const BudgetForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Category" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category._id} value={category._id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <SelectCategories
+                onChange={field.onChange}
+                defaultValue={field.value}
+              />
               <FormMessage />
             </FormItem>
           )}

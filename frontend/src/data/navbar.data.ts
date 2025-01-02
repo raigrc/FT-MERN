@@ -16,8 +16,8 @@ export const items = [
     icon: BiCategory,
   },
   {
-    name: "Budget",
-    href: "/budget",
+    name: "Budgets",
+    href: "/budgets",
     icon: AiOutlinePieChart,
   },
   {

@@ -4,9 +4,8 @@ import {
   PrivateLayout,
   PrivateTitle,
 } from "@/components/shared/private-layout";
+import AddTransaction from "@/components/transactions/add-transaction";
 import { Outlet } from "react-router-dom";
-
-import AddTransaction from "./AddTransaction";
 
 const TransactionPage = () => {
   return (

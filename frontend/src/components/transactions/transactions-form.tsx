@@ -28,9 +28,9 @@ import { Button } from "../ui/button";
 import { useUserStore } from "@/store/useUserStore";
 import { addTransaction } from "@/api/axios.addTransaction";
 import ErrorMessage from "../auth/error-message";
+import SelectCategories from "../shared/select-categories";
 
 const TransactionForm = () => {
-  const [categories, setCategories] = useState<ICategory[]>([]);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
   const { user } = useUserStore();
@@ -42,20 +42,6 @@ const TransactionForm = () => {
       transaction_date: new Date(),
     },
   });
-
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const response = await axiosInstance.get("/category");
-
-        setCategories(response.data.categories);
-      } catch (error) {
-        console.error("Error getting categories", error);
-      }
-    };
-
-    getCategories();
-  }, []);
 
   const onSubmit = (values: TransactionSchemaType) => {
     startTransition(() => {
@@ -84,20 +70,10 @@ const TransactionForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Categories</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category._id} value={category._id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <SelectCategories
+                onChange={field.onChange}
+                defaultValue={field.value}
+              />
               <FormMessage />
             </FormItem>
           )}
