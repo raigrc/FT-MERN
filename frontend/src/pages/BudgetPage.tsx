@@ -1,6 +1,7 @@
 import axiosInstance from "@/api/axios.instance";
 import AddBudget from "@/components/budgets/add-budget";
 import BudgetCard from "@/components/budgets/budget-card";
+import NothingFound from "@/components/shared/nothing-found";
 import {
   PrivateContent,
   PrivateHeader,
@@ -33,7 +34,7 @@ const BudgetPage = () => {
       </PrivateHeader>
       <PrivateContent className="flex flex-wrap items-center gap-4">
         {budgets.length === 0 ? (
-          <div>No budget found</div>
+          <NothingFound title="Budget" />
         ) : (
           budgets.map((budget: any) => {
             const remaining = budget.amount - budget.totalSpent;

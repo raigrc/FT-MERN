@@ -4,7 +4,11 @@ const PrivateLayout = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={`w-full p-6 ${className}`} {...props} />
+  <div
+    ref={ref}
+    className={`flex h-full w-full flex-col p-6 ${className}`}
+    {...props}
+  />
 ));
 
 const PrivateHeader = React.forwardRef<
@@ -29,7 +33,7 @@ const PrivateContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={`py-6 ${className}`} {...props} />
+  <div ref={ref} className={`h-full py-6 ${className}`} {...props} />
 ));
 
 export { PrivateLayout, PrivateHeader, PrivateTitle, PrivateContent };
