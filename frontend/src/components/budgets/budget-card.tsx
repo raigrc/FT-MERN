@@ -14,6 +14,7 @@ interface BudgetCardProps {
   spent: number;
   total: number;
   remaining: number;
+  percentUsed: number;
   progress: number;
 }
 
@@ -22,6 +23,7 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
   spent = 0,
   total = 0,
   remaining = 0,
+  percentUsed = 0,
   progress = 0,
 }) => {
   return (
@@ -37,6 +39,9 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
           </span>
         </div>
         <Progress value={progress} />
+        <p className="py-2 text-xs text-gray-400">
+          {percentUsed}% of budget used
+        </p>
       </CardContent>
       <CardFooter>
         <p className="text-sm text-gray-500">

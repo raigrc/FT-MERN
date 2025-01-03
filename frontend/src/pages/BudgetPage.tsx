@@ -43,6 +43,7 @@ const BudgetPage = () => {
               total={budget.amount}
               spent={budget.totalSpent}
               remaining={remaining}
+              percentUsed={percent}
             />
           );
         })}
