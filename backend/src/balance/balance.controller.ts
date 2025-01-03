@@ -75,6 +75,15 @@ export const getBudgets = async (req: Request, res: Response) => {
       },
     },
     { $unwind: "$category" },
+    {
+      $lookup: {
+        from: "transactions",
+        localField: "categoryId",
+        foreignField: "categoryId",
+        as: "transactions",
+      },
+    },
+    { $addFields: { totalSpent: { $sum: "$transactions.amount" } } },
   ]);
 
   res.json({ budgets });
