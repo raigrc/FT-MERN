@@ -73,6 +73,7 @@ const CategoryForm = () => {
                 <SelectContent>
                   <SelectItem value="income">Income</SelectItem>
                   <SelectItem value="expense">Expense</SelectItem>
+                  <SelectItem value="savings">Savings</SelectItem>
                 </SelectContent>
               </Select>
 

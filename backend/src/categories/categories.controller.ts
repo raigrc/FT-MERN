@@ -11,7 +11,7 @@ export const createCategory = async (req: Request, res: Response) => {
       return;
     }
 
-    if (type !== "income" && type !== "expense") {
+    if (type !== "income" && type !== "expense" && type!== 'savings') {
       res
         .status(400)
         .json({ message: "Category type must be income or expense!" });
