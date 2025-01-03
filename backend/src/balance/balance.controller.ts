@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import Categories from "../categories/categories.model";
-import Budget from "../budgets/budget.model";
 import Transaction from "../transactions/transaction.model";
+import Budget from "../budgets/budget.model";
+import Category from "../categories/categories.model";
 
 export const getAllBalance = async (req: Request, res: Response) => {
   const userId = (req.user as { _id: string })._id;
@@ -59,4 +59,23 @@ export const getAllBalance = async (req: Request, res: Response) => {
     totalExpense: totalExpense[0].totalExpense,
     totalBalance,
   });
+};
+
+export const getBudgets = async (req: Request, res: Response) => {
+  const userId = (req.user as { _id: string })._id;
+
+  const budgets = await Budget.aggregate([
+    { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+    {
+      $lookup: {
+        from: "categories",
+        localField: "categoryId",
+        foreignField: "_id",
+        as: "category",
+      },
+    },
+    { $unwind: "$category" },
+  ]);
+
+  res.json({ budgets });
 };
