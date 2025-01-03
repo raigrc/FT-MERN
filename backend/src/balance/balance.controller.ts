@@ -115,3 +115,25 @@ export const getCategories = async (req: Request, res: Response) => {
 
   res.json({ categories });
 };
+
+export const getTransactionsWithCategories = async (
+  req: Request,
+  res: Response
+) => {
+  const userId = (req.user as { _id: string })._id;
+
+  const transactions = await Transaction.aggregate([
+    { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+    {
+      $lookup: {
+        from: "categories",
+        localField: "categoryId",
+        foreignField: "_id",
+        as: "categories",
+      },
+    },
+    { $unwind: { path: "$categories", preserveNullAndEmptyArrays: true } },
+  ]);
+
+  res.json({ transactions });
+};

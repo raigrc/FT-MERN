@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllBalance, getBudgets, getCategories } from "./balance.controller";
+import { getAllBalance, getBudgets, getCategories, getTransactionsWithCategories } from "./balance.controller";
 import passport from "passport";
 
 const router = express.Router();
@@ -18,6 +18,11 @@ router.get(
   "/categories",
   passport.authenticate("jwt", { session: false }),
   getCategories
+);
+router.get(
+  "/transactions",
+  passport.authenticate("jwt", { session: false }),
+  getTransactionsWithCategories
 );
 
 
