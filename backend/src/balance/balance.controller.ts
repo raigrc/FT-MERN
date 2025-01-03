@@ -17,7 +17,7 @@ export const getAllBalance = async (req: Request, res: Response) => {
         as: "category",
       },
     },
-    { $unwind: "$category" },
+    { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
     { $match: { "category.type": "income" } },
     { $group: { _id: null, totalIncome: { $sum: "$amount" } } },
   ]);
@@ -32,7 +32,7 @@ export const getAllBalance = async (req: Request, res: Response) => {
         as: "category",
       },
     },
-    { $unwind: "$category" },
+    { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
     { $match: { "category.type": "expense" } },
     { $group: { _id: null, totalExpense: { $sum: "$amount" } } },
   ]);
@@ -46,17 +46,24 @@ export const getAllBalance = async (req: Request, res: Response) => {
         as: "category",
       },
     },
-    { $unwind: "$category" },
+    { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
     { $match: { "category.type": "savings" } },
     { $group: { _id: null, totalSavings: { $sum: "$amount" } } },
   ]);
 
-  const totalBalance =
-    totalIncome[0].totalIncome - totalExpense[0].totalExpense;
+  const totalIncomeAmount =
+    totalIncome.length > 0 ? totalIncome[0].totalIncome : 0;
+  const totalExpenseAmount =
+    totalExpense.length > 0 ? totalExpense[0].totalExpense : 0;
+  const totalSavingsAmount =
+    totalSavings.length > 0 ? totalSavings[0].totalSavings : 0;
+
+  // Calculate the total balance
+  const totalBalance = totalIncomeAmount - totalExpenseAmount;
 
   res.json({
-    totalSavings: totalSavings[0].totalSavings,
-    totalExpense: totalExpense[0].totalExpense,
+    totalSavings: totalSavingsAmount,
+    totalExpense: totalExpenseAmount,
     totalBalance,
   });
 };
@@ -74,7 +81,7 @@ export const getBudgets = async (req: Request, res: Response) => {
         as: "category",
       },
     },
-    { $unwind: "$category" },
+    { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
     {
       $lookup: {
         from: "transactions",
@@ -87,4 +94,24 @@ export const getBudgets = async (req: Request, res: Response) => {
   ]);
 
   res.json({ budgets });
+};
+
+export const getCategories = async (req: Request, res: Response) => {
+  const userId = (req.user as { _id: string })._id;
+
+  const categories = await Category.aggregate([
+    { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+    {
+      $lookup: {
+        from: "transactions",
+        localField: "_id",
+        foreignField: "categoryId",
+        as: "transactions",
+      },
+    },
+    { $addFields: { totalTransactions: { $size: "$transactions" } } },
+    { $sort: { totalTransactions: -1, name: 1 } },
+  ]);
+
+  res.json({ categories });
 };
