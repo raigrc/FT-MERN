@@ -44,7 +44,11 @@ const DashboardLayout = () => {
               icon={<LuCreditCard />}
               amount={balance?.totalExpense}
             />
-            <DashboardCard title="Savings" icon={<TbPigMoney />} />
+            <DashboardCard
+              title="Savings"
+              icon={<TbPigMoney />}
+              amount={balance?.totalSavings}
+            />
           </IconContext.Provider>
         </div>
       </PrivateContent>

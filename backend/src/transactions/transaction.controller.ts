@@ -9,7 +9,7 @@ export const createTransaction = async (req: Request, res: Response) => {
     const { categoryId, transaction_date, amount } = req.body;
     const category = await Category.findById(categoryId);
 
-    if (category?.type !== "income") {
+    if (category?.type && category.type !== "income" && category.type !== "savings") {
       const budget = await Budget.findOne({
         categoryId,
         amount: { $gte: amount },

@@ -36,12 +36,26 @@ export const getAllBalance = async (req: Request, res: Response) => {
     { $match: { "category.type": "expense" } },
     { $group: { _id: null, totalExpense: { $sum: "$amount" } } },
   ]);
+  const totalSavings = await Transaction.aggregate([
+    { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+    {
+      $lookup: {
+        from: "categories",
+        localField: "categoryId",
+        foreignField: "_id",
+        as: "category",
+      },
+    },
+    { $unwind: "$category" },
+    { $match: { "category.type": "savings" } },
+    { $group: { _id: null, totalSavings: { $sum: "$amount" } } },
+  ]);
 
   const totalBalance =
     totalIncome[0].totalIncome - totalExpense[0].totalExpense;
 
   res.json({
-    totalIncome,
+    totalSavings: totalSavings[0].totalSavings,
     totalExpense: totalExpense[0].totalExpense,
     totalBalance,
   });
