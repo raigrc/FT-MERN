@@ -5,7 +5,20 @@ import { IBudget } from "./budget.interface";
 export const createBudget = async (req: Request, res: Response) => {
   try {
     const { userId, categoryId, amount, start_date, end_date } = req.body;
-    // const userId = (req.user as { _id: string })._id;
+
+    const existingBudget = await Budget.find({
+      categoryId: categoryId,
+      end_date: {$lte: new Date()}
+    });
+
+    console.log(existingBudget);
+
+    if (existingBudget) {
+      res
+        .status(400)
+        .json({ message: "You already have budget for this category!" });
+      return;
+    }
 
     const budget = new Budget({
       userId,

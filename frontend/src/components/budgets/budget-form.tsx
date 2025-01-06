@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { BudgetSchema, BudgetSchemaType } from "@/schema/BudgetSchema";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -22,10 +22,13 @@ import { useUserStore } from "@/store/useUserStore";
 import { format } from "date-fns";
 import { Calendar } from "../ui/calendar";
 import SelectCategories from "../shared/select-categories";
+import ErrorMessage from "../auth/error-message";
 
 const BudgetForm = () => {
   const [isPending, startTransition] = useTransition();
   const { user } = useUserStore();
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(""); //! add success message or toast/sonner
 
   const form = useForm<BudgetSchemaType>({
     resolver: zodResolver(BudgetSchema),
@@ -35,7 +38,13 @@ const BudgetForm = () => {
     startTransition(() => {
       const userId = user?._id;
 
-      addBudget(userId, values);
+      addBudget(userId, values).then((response) => {
+        if (!response?.success) {
+          setError(response?.message);
+        } else {
+          setSuccess(response.message);
+        }
+      });
     });
   };
 
@@ -133,7 +142,7 @@ const BudgetForm = () => {
             </FormItem>
           )}
         />
-
+        <ErrorMessage message={error} />
         <Button className="w-full" type="submit">
           {isPending ? "Loading..." : "Add Budget"}
         </Button>

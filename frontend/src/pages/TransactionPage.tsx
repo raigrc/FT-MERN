@@ -8,6 +8,13 @@ import {
 } from "@/components/shared/private-layout";
 import AddTransaction from "@/components/transactions/add-transaction";
 import TransactionTable from "@/components/transactions/transaction-table";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useEffect, useState, useTransition } from "react";
 
 const TransactionPage = () => {
@@ -35,23 +42,34 @@ const TransactionPage = () => {
         <AddTransaction />
       </PrivateHeader>
       <PrivateContent>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : transactions.length === 0 ? (
-          <NothingFound title="Transactions" />
-        ) : (
-          transactions.map((transaction: any) => {
-            return (
-              <TransactionTable
-                key={transaction._id}
-                date={transaction.transaction_date}
-                description={transaction.description}
-                type={transaction.categories.type}
-                amount={transaction.amount}
-              />
-            );
-          })
-        )}
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Date</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Amount</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : transactions.length === 0 ? (
+            <NothingFound title="Transactions" />
+          ) : (
+            transactions.map((transaction: any) => {
+              return (
+                <TransactionTable
+                  key={transaction._id}
+                  date={transaction.transaction_date}
+                  description={transaction.description}
+                  type={transaction.categories.type}
+                  amount={transaction.amount}
+                />
+              );
+            })
+          )}
+        </Table>
       </PrivateContent>
     </PrivateLayout>
   );

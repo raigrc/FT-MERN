@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/format-currency";
 import { format } from "date-fns";
 
@@ -24,31 +16,19 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   amount,
 }) => {
   return (
-    <Table>
-      <TableCaption>List of all Transactions</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Date</TableHead>
-          <TableHead>Description</TableHead>
-          <TableHead>Type</TableHead>
-          <TableHead>Amount</TableHead>
-          <TableHead>Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow>
-          <TableCell>{format(date, "PP")}</TableCell>
-          <TableCell>{description}</TableCell>
-          <TableCell>{type}</TableCell>
-          <TableCell
-            className={`${type == "income" ? "text-green-400" : type == "expense" ? "text-red-400" : ""}`}
-          >
-            {type == "income" ? "+" : "-"}
-            {formatCurrency(amount)}
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
+    <TableBody>
+      <TableRow>
+        <TableCell>{format(date, "PP")}</TableCell>
+        <TableCell>{description}</TableCell>
+        <TableCell>{type}</TableCell>
+        <TableCell
+          className={`${type == "income" ? "text-green-400" : type == "expense" ? "text-red-400" : ""}`}
+        >
+          {type == "income" ? "+" : "-"}
+          {formatCurrency(amount)}
+        </TableCell>
+      </TableRow>
+    </TableBody>
   );
 };
 

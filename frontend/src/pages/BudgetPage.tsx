@@ -32,26 +32,28 @@ const BudgetPage = () => {
         <PrivateTitle>Budgets</PrivateTitle>
         <AddBudget />
       </PrivateHeader>
-      <PrivateContent className="flex flex-wrap items-center gap-4">
-        {budgets.length === 0 ? (
-          <NothingFound title="Budget" />
-        ) : (
-          budgets.map((budget: any) => {
-            const remaining = budget.amount - budget.totalSpent;
-            const percent = (budget.totalSpent / budget.amount) * 100;
-            return (
-              <BudgetCard
-                key={budget._id}
-                title={budget.category.name}
-                progress={percent}
-                total={budget.amount}
-                spent={budget.totalSpent}
-                remaining={remaining}
-                percentUsed={percent}
-              />
-            );
-          })
-        )}
+      <PrivateContent>
+        <div className="flex flex-wrap items-center gap-3">
+          {budgets.length === 0 ? (
+            <NothingFound title="Budget" />
+          ) : (
+            budgets.map((budget: any) => {
+              const remaining = budget.amount - budget.totalSpent;
+              const percent = (budget.totalSpent / budget.amount) * 100;
+              return (
+                <BudgetCard
+                  key={budget._id}
+                  title={budget.category.name}
+                  progress={percent}
+                  total={budget.amount}
+                  spent={budget.totalSpent}
+                  remaining={remaining}
+                  percentUsed={percent}
+                />
+              );
+            })
+          )}
+        </div>
       </PrivateContent>
     </PrivateLayout>
   );

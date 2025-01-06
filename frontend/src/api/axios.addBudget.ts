@@ -1,5 +1,6 @@
 import { BudgetSchemaType } from "@/schema/BudgetSchema";
 import axiosInstance from "./axios.instance";
+import axios from "axios";
 
 export const addBudget = async (
   userId: string | undefined,
@@ -11,9 +12,21 @@ export const addBudget = async (
         userId,
         ...data,
       })
-      .then((response) => console.log("Budget added:", response));
+      .then((response) => {
+        console.log("Budget added:", response);
+        return { success: true, message: "Budget added successfully!" };
+      });
   } catch (error) {
-    console.error("Error during adding budget!", error);
-    return null;
+    if (axios.isAxiosError(error)) {
+      return {
+        success: false,
+        message: error.response?.data.message || "An error has occured!",
+      };
+    } else {
+      return {
+        success: false,
+        message: "An unknown error has occured!",
+      };
+    }
   }
 };
