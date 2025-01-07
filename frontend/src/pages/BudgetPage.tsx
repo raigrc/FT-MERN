@@ -44,6 +44,8 @@ const BudgetPage = () => {
                 <BudgetCard
                   key={budget._id}
                   title={budget.category.name}
+                  start_date={budget.start_date}
+                  end_date={budget.end_date}
                   progress={percent}
                   total={budget.amount}
                   spent={budget.totalSpent}

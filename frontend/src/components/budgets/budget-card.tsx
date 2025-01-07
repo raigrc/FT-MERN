@@ -8,6 +8,7 @@ import {
 import { Progress } from "../ui/progress";
 import { formatCurrency } from "@/lib/format-currency";
 import React from "react";
+import { format } from "date-fns";
 
 interface BudgetCardProps {
   title: string;
@@ -16,6 +17,8 @@ interface BudgetCardProps {
   remaining: number;
   percentUsed: number;
   progress: number;
+  start_date: Date;
+  end_date: Date;
 }
 
 const BudgetCard: React.FC<BudgetCardProps> = ({
@@ -25,11 +28,18 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
   remaining = 0,
   percentUsed = 0,
   progress = 0,
+  start_date,
+  end_date,
 }) => {
   return (
-    <Card className="flex-1 max-w-sm">
+    <Card className="max-w-sm flex-1">
       <CardHeader>
-        <CardTitle className="text-xl text-gray-400">{title}</CardTitle>
+        <CardTitle className="flex items-center gap-4 text-xl">
+          {title}
+          <span className="text-xs text-gray-400">
+            {format(start_date, "P")} - {format(end_date, "P")}
+          </span>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="mb-2 text-2xl font-bold">

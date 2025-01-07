@@ -6,16 +6,15 @@ export const createBudget = async (req: Request, res: Response) => {
   try {
     const { userId, categoryId, amount, start_date, end_date } = req.body;
 
+    if (start_date >= end_date) {
+      res.status(400).json({ message: "Invalid date format!" });
+      return;
+    }
+
     const existingBudget = await Budget.find({
       categoryId: categoryId,
     });
-
-    console.log(start_date, existingBudget[0].end_date);
     const existingEndDate = existingBudget[0].end_date;
-
-    const a = new Date(end_date).getTime();
-    const b = new Date(existingEndDate!).getTime();
-    console.log({ a, b });
 
     if (new Date(end_date).getTime() <= new Date(existingEndDate!).getTime()) {
       res
