@@ -71,8 +71,17 @@ export const getAllBalance = async (req: Request, res: Response) => {
 export const getBudgets = async (req: Request, res: Response) => {
   const userId = (req.user as { _id: string })._id;
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   const budgets = await Budget.aggregate([
-    { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+    {
+      $match: {
+        userId: new mongoose.Types.ObjectId(userId),
+        start_date: { $lte: today },
+        end_date: { $gte: today },
+      },
+    },
     {
       $lookup: {
         from: "categories",
@@ -85,8 +94,21 @@ export const getBudgets = async (req: Request, res: Response) => {
     {
       $lookup: {
         from: "transactions",
-        localField: "categoryId",
-        foreignField: "categoryId",
+        // localField: "categoryId",
+        // foreignField: "categoryId",
+        let: { categoryId: "$categoryId" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$categoryId", "$$categoryId"] },
+                  { $lte: ["$transaction_date", new Date()] },
+                ],
+              },
+            },
+          },
+        ],
         as: "transactions",
       },
     },
