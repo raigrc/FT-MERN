@@ -11,17 +11,17 @@ export const createCategory = async (req: Request, res: Response) => {
       return;
     }
 
-    if (type !== "income" && type !== "expense" && type!== 'savings') {
-      res
-        .status(400)
-        .json({ message: "Category type must be income or expense!" });
+    if (type !== "income" && type !== "expense" && type !== "savings") {
+      res.status(400).json({
+        message: "Category type must be income, expense, or savings!",
+      });
       return;
     }
 
     const category = new Category({ userId, name, type });
     await category.save();
 
-    res.status(200).json({ category });
+    res.status(200).json({ category, message: "Category added successfully!" });
   } catch (error) {
     res.status(500).json({
       error: error instanceof Error ? error.message : "Unknown error!",
@@ -37,7 +37,7 @@ export const findAllCategories = async (req: Request, res: Response) => {
       ...(type ? { type } : {}),
     });
 
-    res.status(200).json({ categories });
+    res.status(200).json(categories);
   } catch (error) {
     res.status(500).json({
       error: error instanceof Error ? error.message : "Unknown error!",
@@ -54,7 +54,7 @@ export const findOneCategory = async (req: Request, res: Response) => {
       return;
     }
 
-    res.status(200).json({ category });
+    res.status(200).json(category);
   } catch (error) {
     res.status(500).json({
       error: error instanceof Error ? error.message : "Unknown error!",
@@ -65,19 +65,23 @@ export const updateCategory = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    if (req.body.type !== "income" && req.body.type !== "expense") {
-      res
-        .status(400)
-        .json({ message: "Category type must be income or expense!" });
-      return;
-    }
-
     const category = await Category.findByIdAndUpdate(id, req.body, {
       new: true,
     });
 
     if (!category) {
       res.status(404).json({ message: "Category not found!" });
+      return;
+    }
+
+    if (
+      req.body.type !== "income" &&
+      req.body.type !== "expense" &&
+      req.body.type !== "savings"
+    ) {
+      res.status(400).json({
+        message: "Category type must be income, expense, or savings!",
+      });
       return;
     }
 

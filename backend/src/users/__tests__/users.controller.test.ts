@@ -24,7 +24,7 @@ jest.mock("passport", () => ({
 //   Strategy: jest.fn(),
 // }));
 
-describe("CRUD Functions", () => {
+describe("CRUD Users", () => {
   // const token = jwt.sign(
   //   { _id: "60f5c0f3d5f3c2408f1b4d91" },
   //   process.env.JWT_SECRET!,
@@ -121,7 +121,6 @@ describe("CRUD Functions", () => {
         .mockResolvedValue({ ...mockUsers[0], ...updatedUser });
 
       const response = await api.put("/api/users/1").send(updatedUser);
-      console.log(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.user).toHaveProperty("name", "test3");
