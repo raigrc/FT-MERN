@@ -14,12 +14,18 @@ export const createBudget = async (req: Request, res: Response) => {
     const existingBudget = await Budget.find({
       categoryId: categoryId,
     });
-    const existingEndDate = existingBudget[0].end_date;
+    if (existingBudget) {
+      const existingEndDate = existingBudget[0].end_date;
 
-    if (new Date(end_date).getTime() <= new Date(existingEndDate!).getTime()) {
-      res
-        .status(400)
-        .json({ message: "You already have budget for this category!" });
+      if (
+        new Date(end_date).getTime() <= new Date(existingEndDate!).getTime()
+      ) {
+        res
+          .status(400)
+          .json({ message: "You already have budget for this category!" });
+        return;
+      }
+
       return;
     }
 
@@ -33,7 +39,7 @@ export const createBudget = async (req: Request, res: Response) => {
 
     await budget.save();
 
-    res.status(200).json({ budget, message: "Successfully added budget!" });
+    res.status(201).json({ budget, message: "Successfully added budget!" });
   } catch (error) {
     res.status(500).json({
       error: error instanceof Error ? error.message : "Unknown error",
