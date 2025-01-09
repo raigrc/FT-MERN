@@ -29,7 +29,7 @@ const SelectCategories = ({
             params: type ? { type } : {},
           });
 
-          setCategories(response.data.categories);
+          setCategories(response.data);
         } catch (error) {
           console.error("Error getting categories", error);
         }
