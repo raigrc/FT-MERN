@@ -9,6 +9,7 @@ import PrivateRoute from "./components/auth/private-route";
 import BudgetPage from "./pages/BudgetPage";
 import CategoryPage from "./pages/CategoryPage";
 import TransactionPage from "./pages/TransactionPage";
+import SettingsPage from "./pages/SettingsPage";
 
 function App() {
   const { setUser, clearUser } = useUserStore();
@@ -39,6 +40,7 @@ function App() {
             <Route path="/budgets" element={<BudgetPage />} />
             <Route path="/categories" element={<CategoryPage />} />
             <Route path="/transactions" element={<TransactionPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Route>
         </Routes>
       </div>
