@@ -1,4 +1,10 @@
-const SidebarHeader = ({ name, email }: { name: string; email: string }) => {
+const SidebarHeader = ({
+  name,
+  email,
+}: {
+  name: string | undefined;
+  email: string | undefined;
+}) => {
   return (
     <div className="border-b-2 pb-4">
       <h1 className="font-semibold">{name}</h1>

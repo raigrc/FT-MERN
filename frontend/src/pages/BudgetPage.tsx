@@ -50,7 +50,7 @@ const BudgetPage = () => {
                   total={budget.amount}
                   spent={budget.totalSpent}
                   remaining={remaining}
-                  percentUsed={percent}
+                  percentUsed={parseFloat(percent.toFixed(1))}
                 />
               );
             })
