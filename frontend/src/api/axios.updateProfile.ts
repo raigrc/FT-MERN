@@ -4,12 +4,12 @@ import axiosInstance from "./axios.instance";
 
 export const updateProfile = async (
   userId: string | undefined,
-  values: ProfileSchemaType,
+  data: ProfileSchemaType,
 ) => {
   try {
-    console.log(values);
+    console.log(data);
 
-    const response = await axiosInstance.put(`/users/${userId}`, values);
+    const response = await axiosInstance.put(`/users/${userId}`, data);
 
     console.log("User updated successfully", response);
 

@@ -7,15 +7,12 @@ export const addBudget = async (
   data: BudgetSchemaType,
 ) => {
   try {
-    await axiosInstance
-      .post("/budgets", {
-        userId,
-        ...data,
-      })
-      .then((response) => {
-        console.log("Budget added:", response);
-        return { success: true, message: "Budget added successfully!" };
-      });
+    const response = await axiosInstance.post("/budgets", {
+      userId,
+      ...data,
+    });
+    console.log("Budget added:", response);
+    return { success: true, message: "Budget added successfully!" };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return {

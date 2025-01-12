@@ -34,7 +34,7 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
   return (
     <Card className="max-w-sm flex-1">
       <CardHeader>
-        <CardTitle className="flex items-center gap-4 text-xl">
+        <CardTitle className="flex items-center justify-between gap-4 text-xl">
           {title}
           <span className="text-xs text-gray-400">
             {format(start_date, "P")} - {format(end_date, "P")}

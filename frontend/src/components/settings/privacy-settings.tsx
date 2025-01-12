@@ -3,7 +3,7 @@ import {
   PrivacySettingSchema,
 } from "@/schema/SettingsSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -15,14 +15,31 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { updatePrivacy } from "@/api/axios.updatePrivacy";
+import { useUserStore } from "@/store/useUserStore";
 
 const PrivacyForm = () => {
+  const { user } = useUserStore();
+  const [isPending, startTransition] = useTransition();
   const form = useForm<PrivacySchemaType>({
     resolver: zodResolver(PrivacySettingSchema),
   });
 
   const onSubmit = (data: PrivacySchemaType) => {
-    console.log(data);
+    startTransition(() => {
+      try {
+        updatePrivacy(user?._id, data).then((response) => {
+          if (response?.success) {
+            form.reset();
+          } else {
+            form.resetField("new_password");
+            form.resetField("confirm_password");
+          }
+        });
+      } catch (error) {
+        console.error("Error updating profile", error);
+      }
+    });
   };
   return (
     <Form {...form}>
@@ -34,7 +51,7 @@ const PrivacyForm = () => {
             <FormItem>
               <FormLabel>Current Password</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input type="password" {...field} disabled={isPending} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -47,7 +64,7 @@ const PrivacyForm = () => {
             <FormItem>
               <FormLabel>New Password</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input type="password" {...field} disabled={isPending} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -60,7 +77,7 @@ const PrivacyForm = () => {
             <FormItem>
               <FormLabel>Confirm New Password</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input type="password" {...field} disabled={isPending} />
               </FormControl>
               <FormMessage />
             </FormItem>

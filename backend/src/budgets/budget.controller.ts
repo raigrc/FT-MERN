@@ -14,7 +14,8 @@ export const createBudget = async (req: Request, res: Response) => {
     const existingBudget = await Budget.find({
       categoryId: categoryId,
     });
-    if (existingBudget) {
+
+    if (existingBudget.length > 0) {
       const existingEndDate = existingBudget[0].end_date;
 
       if (
@@ -41,6 +42,7 @@ export const createBudget = async (req: Request, res: Response) => {
 
     res.status(201).json({ budget, message: "Successfully added budget!" });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       error: error instanceof Error ? error.message : "Unknown error",
     });
