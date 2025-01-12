@@ -2,6 +2,7 @@ import React from "react";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/format-currency";
 import { format } from "date-fns";
+import ActionTrigger from "./action-trigger";
 
 interface TransactionTableProps {
   date: string;
@@ -26,6 +27,9 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
         >
           {type == "income" ? "+" : "-"}
           {formatCurrency(amount)}
+        </TableCell>
+        <TableCell>
+          <ActionTrigger />
         </TableCell>
       </TableRow>
     </TableBody>
