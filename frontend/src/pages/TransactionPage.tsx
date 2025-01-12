@@ -1,4 +1,3 @@
-import axiosInstance from "@/api/axios.instance";
 import NothingFound from "@/components/shared/nothing-found";
 import {
   PrivateContent,
@@ -8,33 +7,12 @@ import {
 } from "@/components/shared/private-layout";
 import AddTransaction from "@/components/transactions/add-transaction";
 import TransactionTable from "@/components/transactions/transaction-table";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { useEffect, useState, useTransition } from "react";
+import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import useFetch from "@/hooks/useFetch";
+import { BalanceTransactions } from "@/types/balance.types";
 
 const TransactionPage = () => {
-  const [transactions, setTransactions] = useState([]);
-  const [isLoading, startTransition] = useTransition();
-  useEffect(() => {
-    startTransition(() => {
-      const getTransactions = async () => {
-        try {
-          const response = await axiosInstance.get("/balance/transactions");
-          console.log(response.data.transactions);
-
-          setTransactions(response.data.transactions);
-        } catch (error) {
-          console.error("Error fetching transactions", error);
-        }
-      };
-      getTransactions();
-    });
-  }, []);
+  const { data } = useFetch<BalanceTransactions[]>("/balance/transactions");
   return (
     <PrivateLayout>
       <PrivateHeader className="space-y-4">
@@ -52,12 +30,10 @@ const TransactionPage = () => {
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : transactions.length === 0 ? (
+          {data?.length === 0 ? (
             <NothingFound title="Transactions" />
           ) : (
-            transactions.map((transaction: any) => {
+            data?.map((transaction: any) => {
               return (
                 <TransactionTable
                   key={transaction._id}

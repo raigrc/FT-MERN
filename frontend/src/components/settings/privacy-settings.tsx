@@ -3,7 +3,7 @@ import {
   PrivacySettingSchema,
 } from "@/schema/SettingsSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useTransition } from "react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,

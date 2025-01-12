@@ -115,7 +115,7 @@ export const getBudgets = async (req: Request, res: Response) => {
     { $addFields: { totalSpent: { $sum: "$transactions.amount" } } },
   ]);
 
-  res.json({ budgets });
+  res.json(budgets);
 };
 
 export const getCategories = async (req: Request, res: Response) => {
@@ -135,7 +135,7 @@ export const getCategories = async (req: Request, res: Response) => {
     { $sort: { totalTransactions: -1, name: 1 } },
   ]);
 
-  res.json({ categories });
+  res.json(categories);
 };
 
 export const getTransactionsWithCategories = async (
@@ -157,5 +157,5 @@ export const getTransactionsWithCategories = async (
     { $unwind: { path: "$categories", preserveNullAndEmptyArrays: true } },
   ]);
 
-  res.json({ transactions });
+  res.json(transactions);
 };
