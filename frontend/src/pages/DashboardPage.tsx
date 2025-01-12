@@ -11,16 +11,18 @@ import {
 } from "@/components/shared/private-layout";
 import useFetch from "@/hooks/useFetch";
 import { TotalBalanceType } from "@/types/balance.types";
+import DashboardChart from "@/components/dashboard/dashboard-chart";
+import RecentTransactions from "@/components/dashboard/recent-transactions";
 
 const DashboardPage = () => {
   const { data } = useFetch<TotalBalanceType>("/balance");
 
   return (
-    <PrivateLayout>
+    <PrivateLayout className="h-full">
       <PrivateHeader>
         <PrivateTitle>Dashboard</PrivateTitle>
       </PrivateHeader>
-      <PrivateContent>
+      <PrivateContent className="space-y-6">
         <div className="flex items-center justify-between space-x-4">
           <IconContext.Provider value={{ size: "24" }}>
             <DashboardCard
@@ -39,6 +41,10 @@ const DashboardPage = () => {
               amount={data?.totalSavings}
             />
           </IconContext.Provider>
+        </div>
+        <div className="flex justify-between gap-4">
+          <DashboardChart />
+          <RecentTransactions />
         </div>
       </PrivateContent>
     </PrivateLayout>

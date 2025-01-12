@@ -6,7 +6,6 @@ import {
   PrivateLayout,
   PrivateTitle,
 } from "@/components/shared/private-layout";
-import React from "react";
 
 const SettingsPage = () => {
   return (
