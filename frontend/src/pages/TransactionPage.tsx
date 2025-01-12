@@ -13,6 +13,7 @@ import { BalanceTransactions } from "@/types/balance.types";
 
 const TransactionPage = () => {
   const { data } = useFetch<BalanceTransactions[]>("/balance/transactions");
+  
   return (
     <PrivateLayout>
       <PrivateHeader className="space-y-4">

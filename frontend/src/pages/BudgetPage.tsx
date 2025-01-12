@@ -10,12 +10,8 @@ import {
 import useFetch from "@/hooks/useFetch";
 import { BalanceBudgetsType } from "@/types/balance.types";
 
-
-
 const BudgetPage = () => {
   const { data } = useFetch<BalanceBudgetsType[]>("/balance/budgets");
-
-  console.log(data);
 
   return (
     <PrivateLayout>
