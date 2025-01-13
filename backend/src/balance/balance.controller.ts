@@ -155,6 +155,17 @@ export const getTransactionsWithCategories = async (
       },
     },
     { $unwind: { path: "$categories", preserveNullAndEmptyArrays: true } },
+    // {
+    //   $project: {
+    //     amount: 1,
+    //     description: 1,
+    //     transaction_date: 1,
+    //     categories: {
+    //       name: 1,
+    //       type: 1,
+    //     },
+    //   },
+    // },
   ]);
 
   res.json(transactions);

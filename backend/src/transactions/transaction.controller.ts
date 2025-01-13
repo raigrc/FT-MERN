@@ -9,18 +9,39 @@ export const createTransaction = async (req: Request, res: Response) => {
     const { categoryId, transaction_date, amount } = req.body;
     const category = await Category.findById(categoryId);
 
-    if (category?.type && category.type !== "income" && category.type !== "savings") {
+    if (
+      category?.type &&
+      category.type !== "income" &&
+      category.type !== "savings"
+    ) {
+      const new_transaction_date = new Date(transaction_date);
+      new_transaction_date.setHours(0, 0, 0, 0);
+
+      //check if there's a budget for this transaction
       const budget = await Budget.findOne({
         categoryId,
-        amount: { $gte: amount },
-        start_date: { $lte: transaction_date },
-        end_date: { $gte: transaction_date },
+        // amount: { $gt: amount },
+        start_date: { $lte: new_transaction_date },
+        end_date: { $gte: new_transaction_date },
       });
 
       if (!budget) {
         res.status(400).json({
           message: "You do not have budget for this transaction!",
         });
+        return;
+      }
+
+      //check if the budget is enough for the user's transaction
+      const existingTransaction = await Transaction.find({
+        categoryId,
+      });
+      const totalAmount = existingTransaction.reduce((total, transaction) => {
+        return total + (transaction as any).amount;
+      }, 0);
+
+      if (totalAmount + amount > budget.amount!) {
+        res.status(400).json({ message: "The amount exceed your budget!" });
         return;
       }
     }
