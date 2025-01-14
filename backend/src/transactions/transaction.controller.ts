@@ -36,11 +36,16 @@ export const createTransaction = async (req: Request, res: Response) => {
       const existingTransaction = await Transaction.find({
         categoryId,
       });
-      const totalAmount = existingTransaction.reduce((total, transaction) => {
-        return total + (transaction as any).amount;
-      }, 0);
+      const totalTransactionAmount = existingTransaction.reduce(
+        (total, transaction) => {
+          return total + (transaction as any).amount;
+        },
+        0
+      );
 
-      if (totalAmount + amount > budget.amount!) {
+      const totalAmount = totalTransactionAmount + amount;
+
+      if (totalAmount > budget.amount!) {
         res.status(400).json({ message: "The amount exceed your budget!" });
         return;
       }
