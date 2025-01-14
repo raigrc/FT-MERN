@@ -35,6 +35,7 @@ export const createTransaction = async (req: Request, res: Response) => {
       //check if the budget is enough for the user's transaction
       const existingTransaction = await Transaction.find({
         categoryId,
+        transaction_date: { $gte: budget.start_date, $lte: budget.end_date },
       });
       const totalTransactionAmount = existingTransaction.reduce(
         (total, transaction) => {
