@@ -1,4 +1,5 @@
 import NothingFound from "@/components/shared/nothing-found";
+import PaginationComp from "@/components/shared/pagination";
 import {
   PrivateContent,
   PrivateHeader,
@@ -10,10 +11,15 @@ import TransactionTable from "@/components/transactions/transaction-table";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import useFetch from "@/hooks/useFetch";
 import { BalanceTransactions } from "@/types/balance.types";
+import { useState } from "react";
 
 const TransactionPage = () => {
-  const { data } = useFetch<BalanceTransactions[]>("/balance/transactions");
-  
+  const [page, setPage] = useState<number | undefined>(1);
+  const { data } = useFetch<BalanceTransactions>(
+    `/balance/transactions?page=${page}`,
+  );
+  console.log(data);
+
   return (
     <PrivateLayout>
       <PrivateHeader className="space-y-4">
@@ -31,10 +37,10 @@ const TransactionPage = () => {
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
-          {data?.length === 0 ? (
+          {data?.transactions.length === 0 ? (
             <NothingFound title="Transactions" />
           ) : (
-            data?.map((transaction: any) => {
+            data?.transactions.map((transaction: any) => {
               return (
                 <TransactionTable
                   key={transaction._id}
@@ -47,6 +53,7 @@ const TransactionPage = () => {
             })
           )}
         </Table>
+        <PaginationComp totalPages={data?.total} currentPage={page} />
       </PrivateContent>
     </PrivateLayout>
   );

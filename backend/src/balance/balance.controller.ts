@@ -143,9 +143,17 @@ export const getTransactionsWithCategories = async (
   res: Response
 ) => {
   const userId = (req.user as { _id: string })._id;
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 3;
+
+  const totalTransactions = await Transaction.countDocuments({
+    userId: new mongoose.Types.ObjectId(userId),
+  });
 
   const transactions = await Transaction.aggregate([
     { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+    { $skip: (page - 1) * limit },
+    { $limit: limit },
     {
       $lookup: {
         from: "categories",
@@ -155,18 +163,23 @@ export const getTransactionsWithCategories = async (
       },
     },
     { $unwind: { path: "$categories", preserveNullAndEmptyArrays: true } },
-    // {
-    //   $project: {
-    //     amount: 1,
-    //     description: 1,
-    //     transaction_date: 1,
-    //     categories: {
-    //       name: 1,
-    //       type: 1,
-    //     },
-    //   },
-    // },
+    {
+      $project: {
+        amount: 1,
+        description: 1,
+        transaction_date: 1,
+        categories: {
+          name: 1,
+          type: 1,
+        },
+      },
+    },
   ]);
 
-  res.json(transactions);
+  res.json({
+    totalPages: totalTransactions / limit,
+    transactions,
+    page,
+    limit,
+  });
 };

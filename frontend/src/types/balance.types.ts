@@ -22,9 +22,14 @@ export interface BalanceBudgetsType {
 }
 
 export interface BalanceTransactions {
-  _id: string;
-  transaction_date: Date;
-  description?: string;
-  amount: number;
-  type: "income" | " expense" | "savings";
+  limit: number | undefined;
+  page: number | undefined;
+  total: number | undefined;
+  transactions: {
+    _id: string;
+    transaction_date: Date;
+    description?: string;
+    amount: number;
+    type: "income" | " expense" | "savings";
+  }[];
 }

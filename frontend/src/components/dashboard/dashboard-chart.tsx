@@ -16,19 +16,17 @@ const DashboardChart = () => {
     mobile: { label: "Mobile", color: "hsl(var(--destructive))" },
   } satisfies ChartConfig;
   return (
-    <div className="w-2/3">
-      <Card>
-        <CardContent>
-          <ChartContainer config={chartConfig}>
-            <BarChart accessibilityLayer data={chartData}>
-              <XAxis dataKey="month" />
-              <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-              <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
-    </div>
+    <Card className="w-2/3">
+      <CardContent>
+        <ChartContainer config={chartConfig}>
+          <BarChart accessibilityLayer data={chartData}>
+            <XAxis dataKey="month" />
+            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
+            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
   );
 };
 
