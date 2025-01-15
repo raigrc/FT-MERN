@@ -28,7 +28,7 @@ const TransactionPage = () => {
         <PrivateTitle>Transactions</PrivateTitle>
         <AddTransaction />
       </PrivateHeader>
-      <PrivateContent>
+      <PrivateContent className="flex h-full flex-col">
         <Table>
           <TableHeader>
             <TableRow>
@@ -55,11 +55,13 @@ const TransactionPage = () => {
             })
           )}
         </Table>
-        <PaginationComp
-          totalPages={data?.totalPages}
-          currentPage={page}
-          setPage={setPage}
-        />
+        {data?.totalPages && data?.totalPages > 1 && (
+          <PaginationComp
+            totalPages={data?.totalPages}
+            currentPage={page}
+            setPage={setPage}
+          />
+        )}
       </PrivateContent>
     </PrivateLayout>
   );

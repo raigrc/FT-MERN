@@ -144,7 +144,7 @@ export const getTransactionsWithCategories = async (
 ) => {
   const userId = (req.user as { _id: string })._id;
   const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 3;
+  const limit = parseInt(req.query.limit as string) || 10;
 
   const totalTransactions = await Transaction.countDocuments({
     userId: new mongoose.Types.ObjectId(userId),
