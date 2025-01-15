@@ -103,7 +103,7 @@ export const getBudgets = async (req: Request, res: Response) => {
               $expr: {
                 $and: [
                   { $eq: ["$categoryId", "$$categoryId"] },
-                  { $lte: ["$transaction_date", new Date()] },
+                  { $gte: ["$transaction_date", today] },
                 ],
               },
             },
@@ -163,21 +163,23 @@ export const getTransactionsWithCategories = async (
       },
     },
     { $unwind: { path: "$categories", preserveNullAndEmptyArrays: true } },
-    {
-      $project: {
-        amount: 1,
-        description: 1,
-        transaction_date: 1,
-        categories: {
-          name: 1,
-          type: 1,
-        },
-      },
-    },
+    // {
+    //   $project: {
+    //     amount: 1,
+    //     description: 1,
+    //     transaction_date: 1,
+    //     categories: {
+    //       name: 1,
+    //       type: 1,
+    //     },
+    //   },
+    // },
   ]);
 
+  const totalPages = totalTransactions / limit;
+
   res.json({
-    totalPages: totalTransactions / limit,
+    totalPages: totalPages < 1 ? 1 : totalPages,
     transactions,
     page,
     limit,

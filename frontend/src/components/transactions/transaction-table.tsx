@@ -7,7 +7,7 @@ import ActionTrigger from "./action-trigger";
 interface TransactionTableProps {
   date: string;
   description: string;
-  type: string;
+  type: any;
   amount: number;
 }
 const TransactionTable: React.FC<TransactionTableProps> = ({

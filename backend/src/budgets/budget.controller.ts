@@ -14,6 +14,8 @@ export const createBudget = async (req: Request, res: Response) => {
     const existingBudget = await Budget.find({
       categoryId: categoryId,
     });
+    console.log(existingBudget);
+    console.log(req.body);
 
     if (existingBudget.length > 0) {
       const existingEndDate = existingBudget[0].end_date;
@@ -26,8 +28,6 @@ export const createBudget = async (req: Request, res: Response) => {
           .json({ message: "You already have budget for this category!" });
         return;
       }
-
-      return;
     }
 
     const budget = new Budget({
