@@ -11,14 +11,16 @@ import TransactionTable from "@/components/transactions/transaction-table";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import useFetch from "@/hooks/useFetch";
 import { BalanceTransactions } from "@/types/balance.types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const TransactionPage = () => {
   const [page, setPage] = useState<number | undefined>(1);
+
+  const options = useMemo(() => ({ params: { page } }), [page]); // to ensure that it does not refetch always
   const { data } = useFetch<BalanceTransactions>(
-    `/balance/transactions?page=${page}`,
+    `/balance/transactions`,
+    options,
   );
-  console.log(data);
 
   return (
     <PrivateLayout>
@@ -53,7 +55,11 @@ const TransactionPage = () => {
             })
           )}
         </Table>
-        <PaginationComp totalPages={data?.total} currentPage={page} />
+        <PaginationComp
+          totalPages={data?.totalPages}
+          currentPage={page}
+          setPage={setPage}
+        />
       </PrivateContent>
     </PrivateLayout>
   );

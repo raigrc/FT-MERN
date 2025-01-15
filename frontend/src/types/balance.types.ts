@@ -24,7 +24,7 @@ export interface BalanceBudgetsType {
 export interface BalanceTransactions {
   limit: number | undefined;
   page: number | undefined;
-  total: number | undefined;
+  totalPages: number | undefined;
   transactions: {
     _id: string;
     transaction_date: Date;

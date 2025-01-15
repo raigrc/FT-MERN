@@ -15,7 +15,7 @@ const useFetch = <T>(url: string, options = {}): { data: T | null } => {
     };
 
     fetchData();
-  }, [url]);
+  }, [url, options]);
 
   return { data };
 };
