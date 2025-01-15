@@ -22,8 +22,6 @@ const TransactionPage = () => {
     options,
   );
 
-  console.log(data);
-
   return (
     <PrivateLayout>
       <PrivateHeader className="space-y-4">
