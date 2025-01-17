@@ -30,6 +30,11 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
+    /* New color variables */
+    --success: 141 50% 47%; /* Green */
+    --warning: 39 100% 56%; /* Yellow */
+    --info: 191 100% 56%; /* Light Blue */
   }
 
   .dark {
@@ -57,6 +62,11 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    /* Dark Mode colors */
+    --success: 141 55% 40%; /* Darker Green */
+    --warning: 39 100% 50%; /* Darker Yellow */
+    --info: 191 100% 45%; /* Darker Blue */
   }
 }
 

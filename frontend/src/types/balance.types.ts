@@ -7,7 +7,17 @@ export interface TotalBalanceType {
 export interface BalanceCategoriesType {
   _id: string;
   name: string;
+  type: string;
   totalTransactions: number;
+  transactions: [
+    {
+      _id: string;
+      amount: number;
+      categoryId: string;
+      description: string;
+      transaction_date: Date;
+    },
+  ];
 }
 
 export interface BalanceBudgetsType {

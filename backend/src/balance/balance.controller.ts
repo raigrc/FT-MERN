@@ -96,14 +96,19 @@ export const getBudgets = async (req: Request, res: Response) => {
         from: "transactions",
         // localField: "categoryId",
         // foreignField: "categoryId",
-        let: { categoryId: "$categoryId" },
+        let: {
+          categoryId: "$categoryId",
+          start_date: "$start_date",
+          end_date: "$end_date",
+        },
         pipeline: [
           {
             $match: {
               $expr: {
                 $and: [
                   { $eq: ["$categoryId", "$$categoryId"] },
-                  { $gte: ["$transaction_date", today] },
+                  { $gte: ["$transaction_date", "$$start_date"] },
+                  { $lte: ["$transaction_date", "$$end_date"] },
                 ],
               },
             },
@@ -136,6 +141,31 @@ export const getCategories = async (req: Request, res: Response) => {
   ]);
 
   res.json(categories);
+};
+
+export const getOneCategory = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const userId = (req.user as { _id: string })._id;
+
+  const category = await Category.aggregate([
+    {
+      $match: {
+        userId: new mongoose.Types.ObjectId(userId),
+        _id: new mongoose.Types.ObjectId(id),
+      },
+    },
+    {
+      $lookup: {
+        from: "transactions",
+        localField: "_id",
+        foreignField: "categoryId",
+        as: "transactions",
+      },
+    },
+    { $addFields: { totalTransactions: { $size: "$transactions" } } },
+  ]);
+
+  res.json(category);
 };
 
 export const getTransactionsWithCategories = async (

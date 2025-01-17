@@ -12,6 +12,7 @@ import { BalanceCategoriesType } from "@/types/balance.types";
 
 const CategoryPage = () => {
   const { data } = useFetch<BalanceCategoriesType[]>("/balance/categories");
+  console.log(data);
 
   return (
     <>
@@ -29,6 +30,7 @@ const CategoryPage = () => {
                 return (
                   <CategoryCard
                     key={category._id}
+                    id={category._id}
                     title={category.name}
                     transactions={category.totalTransactions}
                   />

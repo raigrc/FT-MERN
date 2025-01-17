@@ -1,4 +1,5 @@
 import NothingFound from "@/components/shared/nothing-found";
+import { options } from "@/components/shared/options";
 import PaginationComp from "@/components/shared/pagination";
 import {
   PrivateContent,
@@ -11,15 +12,15 @@ import TransactionTable from "@/components/transactions/transaction-table";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import useFetch from "@/hooks/useFetch";
 import { BalanceTransactions } from "@/types/balance.types";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 const TransactionPage = () => {
   const [page, setPage] = useState<number | undefined>(1);
 
-  const options = useMemo(() => ({ params: { page } }), [page]); // to ensure that it does not refetch always
+  // const options = useMemo(() => ({ params: { page } }), [page]); // to ensure that it does not refetch always
   const { data } = useFetch<BalanceTransactions>(
     `/balance/transactions`,
-    options,
+    options(page, { params: { page } }),
   );
 
   return (
@@ -28,7 +29,7 @@ const TransactionPage = () => {
         <PrivateTitle>Transactions</PrivateTitle>
         <AddTransaction />
       </PrivateHeader>
-      <PrivateContent className="flex h-full flex-col">
+      <PrivateContent className="flex flex-col h-full">
         <Table>
           <TableHeader>
             <TableRow>

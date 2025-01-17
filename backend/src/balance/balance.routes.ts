@@ -1,5 +1,11 @@
 import express from "express";
-import { getAllBalance, getBudgets, getCategories, getTransactionsWithCategories } from "./balance.controller";
+import {
+  getAllBalance,
+  getBudgets,
+  getCategories,
+  getOneCategory,
+  getTransactionsWithCategories,
+} from "./balance.controller";
 import passport from "passport";
 
 const router = express.Router();
@@ -20,10 +26,14 @@ router.get(
   getCategories
 );
 router.get(
+  "/categories/:id",
+  passport.authenticate("jwt", { session: false }),
+  getOneCategory
+);
+router.get(
   "/transactions",
   passport.authenticate("jwt", { session: false }),
   getTransactionsWithCategories
 );
-
 
 export default router;

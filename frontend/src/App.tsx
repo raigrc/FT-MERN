@@ -10,6 +10,7 @@ import BudgetPage from "./pages/BudgetPage";
 import CategoryPage from "./pages/CategoryPage";
 import TransactionPage from "./pages/TransactionPage";
 import SettingsPage from "./pages/SettingsPage";
+import CategoryId from "./components/category/category";
 
 function App() {
   const { setUser, clearUser } = useUserStore();
@@ -30,7 +31,7 @@ function App() {
 
   return (
     <Router>
-      <div className="h-screen w-full">
+      <div className="w-full h-screen">
         <Routes>
           <Route element={<AuthRoute />}>
             <Route path="/login" element={<LoginPage />} />
@@ -39,6 +40,8 @@ function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/budgets" element={<BudgetPage />} />
             <Route path="/categories" element={<CategoryPage />} />
+            <Route path="/categories/:categoryId" element={<CategoryId />} />
+
             <Route path="/transactions" element={<TransactionPage />} />
             <Route path="/settings" element={<SettingsPage />} />
           </Route>
