@@ -26,7 +26,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
           </p>
           <Link to={`${id}`}>
             <Button variant="link" size="sm">
-              see all transactions
+              see transactions
             </Button>
           </Link>
         </div>
