@@ -182,6 +182,7 @@ export const getTransactionsWithCategories = async (
 
   const transactions = await Transaction.aggregate([
     { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+    { $sort: { transaction_date: -1 } },
     { $skip: (page - 1) * limit },
     { $limit: limit },
     {
@@ -206,10 +207,10 @@ export const getTransactionsWithCategories = async (
     // },
   ]);
 
-  const totalPages = totalTransactions / limit;
+  const totalPages = Math.ceil(totalTransactions / limit);
 
   res.json({
-    totalPages: totalPages < 1 ? 1 : totalPages,
+    totalPages,
     transactions,
     page,
     limit,

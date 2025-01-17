@@ -9,8 +9,13 @@ import { Progress } from "../ui/progress";
 import { formatCurrency } from "@/lib/format-currency";
 import React from "react";
 import { format } from "date-fns";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import ActionTrigger from "../shared/action-trigger";
+import { Button } from "../ui/button";
+import DeleteDialogue from "../shared/delete-dialog";
 
 interface BudgetCardProps {
+  _id: string;
   title: string;
   spent: number;
   total: number;
@@ -22,6 +27,7 @@ interface BudgetCardProps {
 }
 
 const BudgetCard: React.FC<BudgetCardProps> = ({
+  _id,
   title,
   spent = 0,
   total = 0,
@@ -31,16 +37,44 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
   start_date,
   end_date,
 }) => {
+  const handleEdit = () => {
+    console.log(_id);
+  };
+  const handleDel = () => {
+    console.log("hello");
+  };
   return (
     <Card className="max-w-sm flex-1">
       <CardHeader>
         <CardTitle className="flex items-center justify-between gap-4 text-xl">
-          {title}
-          <span className="text-xs text-gray-400">
-            {format(start_date, "P")} - {format(end_date, "P")}
-          </span>
+          <h1>{title}</h1>
+          <div className="flex items-center justify-center">
+            <span className="text-xs text-gray-400">
+              {format(start_date, "P")} - {format(end_date, "P")}
+            </span>
+
+            {/*action to edit or delete budget */}
+            <ActionTrigger icon={<BsThreeDotsVertical />}>
+              <Button variant="ghost" onClick={handleEdit}>
+                Edit
+              </Button>
+              <DeleteDialogue
+                handleDelete={handleDel}
+                trigger={
+                  <Button
+                    variant="ghost"
+                    className="text-destructive"
+                    onClick={handleEdit}
+                  >
+                    Delete
+                  </Button>
+                }
+              />
+            </ActionTrigger>
+          </div>
         </CardTitle>
       </CardHeader>
+
       <CardContent>
         <div className="mb-2 text-2xl font-bold">
           {formatCurrency(spent)}{" "}

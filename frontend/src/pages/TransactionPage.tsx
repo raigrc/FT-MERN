@@ -23,6 +23,8 @@ const TransactionPage = () => {
     options(page, { params: { page } }),
   );
 
+  console.log(data);
+
   return (
     <PrivateLayout>
       <PrivateHeader className="space-y-4">
@@ -47,6 +49,7 @@ const TransactionPage = () => {
               return (
                 <TransactionTable
                   key={transaction._id}
+                  _id={transaction._id}
                   date={transaction.transaction_date}
                   description={transaction.description}
                   type={transaction.categories.type}
