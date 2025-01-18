@@ -11,8 +11,6 @@ import React from "react";
 import { format } from "date-fns";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ActionTrigger from "../shared/action-trigger";
-import { Button } from "../ui/button";
-import DeleteDialogue from "../shared/delete-dialog";
 import { deleteBudget } from "@/api/axios.deleteBudget";
 
 interface BudgetCardProps {
@@ -55,24 +53,13 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
             </span>
 
             {/*action to edit or delete budget */}
-            <ActionTrigger icon={<BsThreeDotsVertical />}>
-              <Button variant="ghost" onClick={handleEdit}>
-                Edit
-              </Button>
-              <DeleteDialogue
-                item={title}
-                handleDelete={() => handleDel(_id)}
-                trigger={
-                  <Button
-                    variant="ghost"
-                    className="text-destructive"
-                    onClick={handleEdit}
-                  >
-                    Delete
-                  </Button>
-                }
-              />
-            </ActionTrigger>
+            <ActionTrigger
+              icon={<BsThreeDotsVertical />}
+              title={title}
+              _id={_id}
+              handleDelete={() => handleDel(_id)}
+              handleEdit={handleEdit}
+            />
           </div>
         </CardTitle>
       </CardHeader>

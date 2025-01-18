@@ -14,7 +14,7 @@ const CategoryPage = () => {
   const { data } = useFetch<BalanceCategoriesType[]>("/balance/categories");
   console.log(data);
 
-  return (
+  return ( 
     <>
       <PrivateLayout>
         <PrivateHeader className="space-y-4">
@@ -22,7 +22,7 @@ const CategoryPage = () => {
           <AddCategory />
         </PrivateHeader>
         <PrivateContent>
-          <div className="flex-wrap items-center md:flex">
+          <div className="flex flex-wrap items-center">
             {data?.length === 0 ? (
               <NothingFound title="Category" />
             ) : (
@@ -30,7 +30,7 @@ const CategoryPage = () => {
                 return (
                   <CategoryCard
                     key={category._id}
-                    id={category._id}
+                    _id={category._id}
                     title={category.name}
                     transactions={category.totalTransactions}
                   />

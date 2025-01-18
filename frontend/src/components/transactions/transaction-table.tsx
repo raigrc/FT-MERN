@@ -4,8 +4,6 @@ import { formatCurrency } from "@/lib/format-currency";
 import { format } from "date-fns";
 import ActionTrigger from "../shared/action-trigger";
 import { BsThreeDots } from "react-icons/bs";
-import DeleteDialog from "../shared/delete-dialog";
-import { Button } from "../ui/button";
 import { deleteTransaction } from "@/api/axios.deleteTransaction";
 
 interface TransactionTableProps {
@@ -41,20 +39,13 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
           {formatCurrency(amount)}
         </TableCell>
         <TableCell>
-          <ActionTrigger icon={<BsThreeDots />}>
-            <Button variant="ghost" onClick={handleEdit}>
-              Edit
-            </Button>
-            <DeleteDialog
-              item={`${description} | ${type}`}
-              handleDelete={() => handleDel(_id)}
-              trigger={
-                <Button variant="ghost" className="text-destructive">
-                  Delete
-                </Button>
-              }
-            />
-          </ActionTrigger>
+          <ActionTrigger
+            icon={<BsThreeDots />}
+            title={`${description} | ${type}`}
+            _id={_id}
+            handleDelete={() => handleDel(_id)}
+            handleEdit={handleEdit}
+          />
         </TableCell>
       </TableRow>
     </TableBody>
