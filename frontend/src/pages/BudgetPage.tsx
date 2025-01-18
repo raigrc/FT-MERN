@@ -32,6 +32,7 @@ const BudgetPage = () => {
               return (
                 <BudgetCard
                   key={budget._id}
+                  _id={budget._id}
                   title={budget.category.name}
                   start_date={budget.start_date}
                   end_date={budget.end_date}
