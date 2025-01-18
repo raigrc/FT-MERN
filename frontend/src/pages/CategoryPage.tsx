@@ -18,7 +18,7 @@ const CategoryPage = () => {
     <>
       <PrivateLayout>
         <PrivateHeader className="space-y-4">
-          <PrivateTitle>Budgets</PrivateTitle>
+          <PrivateTitle>Categories</PrivateTitle>
           <AddCategory />
         </PrivateHeader>
         <PrivateContent>
