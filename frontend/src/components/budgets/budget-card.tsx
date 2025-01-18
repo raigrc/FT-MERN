@@ -13,6 +13,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import ActionTrigger from "../shared/action-trigger";
 import { Button } from "../ui/button";
 import DeleteDialogue from "../shared/delete-dialog";
+import { deleteBudget } from "@/api/axios.deleteBudget";
 
 interface BudgetCardProps {
   _id: string;
@@ -40,8 +41,8 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
   const handleEdit = () => {
     console.log(_id);
   };
-  const handleDel = () => {
-    console.log("hello");
+  const handleDel = (id: string) => {
+    deleteBudget(id);
   };
   return (
     <Card className="max-w-sm flex-1">
@@ -60,7 +61,7 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
               </Button>
               <DeleteDialogue
                 item={title}
-                handleDelete={handleDel}
+                handleDelete={() => handleDel(_id)}
                 trigger={
                   <Button
                     variant="ghost"
