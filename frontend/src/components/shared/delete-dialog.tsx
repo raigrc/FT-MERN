@@ -13,9 +13,11 @@ import { Button } from "../ui/button";
 const DeleteDialog = ({
   trigger,
   handleDelete,
+  item,
 }: {
   trigger: React.ReactNode;
   handleDelete: () => void;
+  item: string;
 }) => {
   return (
     <Dialog>
@@ -25,9 +27,9 @@ const DeleteDialog = ({
           <DialogTitle>Confirm Delete</DialogTitle>
         </DialogHeader>
         <DialogDescription>
-          Are you sure you want to delete this?
+          Are you sure you want to delete '{item}'?
         </DialogDescription>
-        <div className="flex items-center w-full space-x-4">
+        <div className="flex w-full items-center space-x-4">
           <DialogClose asChild>
             <Button className="w-full" variant="outline">
               Cancel
