@@ -59,6 +59,7 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
                 Edit
               </Button>
               <DeleteDialogue
+                item={title}
                 handleDelete={handleDel}
                 trigger={
                   <Button
