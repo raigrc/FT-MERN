@@ -1,5 +1,5 @@
 import useFetch from "@/hooks/useFetch";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   PrivateContent,
   PrivateHeader,
@@ -11,6 +11,7 @@ import { options } from "../shared/options";
 import { Table, TableHead, TableHeader, TableRow } from "../ui/table";
 import CategoryTable from "./category-table";
 import NothingFound from "../shared/nothing-found";
+import { IoIosArrowBack } from "react-icons/io";
 
 const CategoryId = () => {
   const { categoryId } = useParams();
@@ -28,6 +29,10 @@ const CategoryId = () => {
         <PrivateLayout key={category._id}>
           <PrivateHeader>
             <PrivateTitle className="flex items-start space-x-2">
+              <Link to="/categories">
+                <IoIosArrowBack />
+              </Link>
+
               <h1>{category.name}</h1>
               <span
                 className={`rounded px-2 text-xs ${category.type === "expense" ? "bg-destructive" : "bg-success"}`}
