@@ -46,8 +46,13 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
               Edit
             </Button>
             <DeleteDialog
+              item={`${description} | ${type}`}
               handleDelete={() => handleDel(_id)}
-              trigger={<Button variant="ghost">Delete</Button>}
+              trigger={
+                <Button variant="ghost" className="text-destructive">
+                  Delete
+                </Button>
+              }
             />
           </ActionTrigger>
         </TableCell>
