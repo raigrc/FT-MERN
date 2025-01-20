@@ -13,13 +13,23 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 import { SelectValue } from "@radix-ui/react-select";
-import { useTransition } from "react";
+import React, { useEffect, useTransition } from "react";
 import { addCategory } from "@/api/axios.addCategory";
 import { useUserStore } from "@/store/useUserStore";
-
-const CategoryForm = () => {
+import { updateCategory } from "@/api/axios.updateCategory";
+interface CategoryFormProps {
+  initialValues?: Partial<ICategorySchema>;
+  mode: "create" | "update";
+  categoryId?: string | undefined;
+}
+const CategoryForm: React.FC<CategoryFormProps> = ({
+  initialValues = {},
+  mode = "create",
+  categoryId,
+}) => {
   const form = useForm<ICategorySchema>({
     resolver: zodResolver(CategorySchema),
+    defaultValues: initialValues,
   });
 
   const [isPending, startTransition] = useTransition();
@@ -30,9 +40,17 @@ const CategoryForm = () => {
       const userId = user?._id;
       console.log(values);
 
-      addCategory(userId, values);
+      mode === "create"
+        ? addCategory(userId, values)
+        : updateCategory(values, categoryId);
     });
   };
+
+  useEffect(() => {
+    if (initialValues) {
+      form.reset(initialValues);
+    }
+  }, [initialValues]);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -63,6 +81,7 @@ const CategoryForm = () => {
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value}
+                value={field.value}
                 disabled={isPending}
               >
                 <FormControl>
@@ -83,7 +102,11 @@ const CategoryForm = () => {
         />
 
         <Button className="w-full">
-          {isPending ? "Loading..." : "Add Category"}
+          {isPending
+            ? "Loading..."
+            : mode === "create"
+              ? "Add Category"
+              : "Update Category"}
         </Button>
       </form>
     </Form>

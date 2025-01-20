@@ -4,7 +4,7 @@ import CategoryForm from "./category-form";
 const AddCategory = () => {
   return (
     <InsertData buttonTitle="Add Category" title="Add Category">
-      <CategoryForm />
+      <CategoryForm mode="create" />
     </InsertData>
   );
 };

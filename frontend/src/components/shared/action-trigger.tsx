@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "../ui/button";
 import DeleteDialogue from "../shared/delete-dialog";
+import EditDialog from "./edit-dialog";
 
 const ActionTrigger = ({
   icon,
@@ -16,21 +17,28 @@ const ActionTrigger = ({
   icon: React.ReactNode;
   title: string;
   _id: string;
-  handleEdit: () => void;
+  handleEdit: any;
   handleDelete: (id: string) => void;
 }) => {
   return (
     <Popover>
       <PopoverTrigger>{icon}</PopoverTrigger>
-      <PopoverContent className="flex w-auto flex-col p-0">
-        <Button variant="ghost" onClick={handleEdit}>
-          Edit
-        </Button>
+      <PopoverContent className="flex flex-col w-auto p-0">
+        <EditDialog
+          title={title}
+          trigger={
+            <Button variant="ghost" className="w-full">
+              Edit
+            </Button>
+          }
+        >
+          {handleEdit}
+        </EditDialog>
         <DeleteDialogue
           item={title}
           handleDelete={() => handleDelete(_id)}
           trigger={
-            <Button variant="ghost" className="text-destructive">
+            <Button variant="ghost" className="w-full text-destructive">
               Delete
             </Button>
           }

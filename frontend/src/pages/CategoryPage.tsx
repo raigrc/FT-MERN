@@ -1,6 +1,7 @@
 import AddCategory from "@/components/category/add-category";
 import CategoryCard from "@/components/category/category-card";
 import NothingFound from "@/components/shared/nothing-found";
+import { options } from "@/components/shared/options";
 import {
   PrivateContent,
   PrivateHeader,
@@ -11,10 +12,13 @@ import useFetch from "@/hooks/useFetch";
 import { BalanceCategoriesType } from "@/types/balance.types";
 
 const CategoryPage = () => {
-  const { data } = useFetch<BalanceCategoriesType[]>("/balance/categories");
+  const { data } = useFetch<BalanceCategoriesType[]>(
+    "/balance/categories",
+    options,
+  );
   console.log(data);
 
-  return ( 
+  return (
     <>
       <PrivateLayout>
         <PrivateHeader className="space-y-4">

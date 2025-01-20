@@ -29,20 +29,21 @@ const DeleteDialog = ({
         <DialogDescription>
           Are you sure you want to delete '{item}'?
         </DialogDescription>
-        <div className="flex w-full items-center space-x-4">
+        <div className="flex items-center w-full space-x-4">
           <DialogClose asChild>
             <Button className="w-full" variant="outline">
               Cancel
             </Button>
           </DialogClose>
-
-          <Button
-            className="w-full"
-            variant="destructive"
-            onClick={handleDelete}
-          >
-            Delete
-          </Button>
+          <DialogClose asChild>
+            <Button
+              className="w-full"
+              variant="destructive"
+              onClick={handleDelete}
+            >
+              Delete
+            </Button>
+          </DialogClose>
         </div>
       </DialogContent>
     </Dialog>

@@ -2,26 +2,28 @@ import React from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTrigger,
 } from "../ui/dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 const EditDialog = ({
   trigger,
   title,
-  handleEdit,
+  children,
 }: {
   trigger: React.ReactNode;
   title: string;
-  handleEdit: () => void;
+  children: React.ReactNode;
 }) => {
   return (
     <Dialog>
       <DialogTrigger>{trigger}</DialogTrigger>
       <DialogContent>
-        <DialogHeader>Edit {title}</DialogHeader>
-        <DialogDescription></DialogDescription>
+        <DialogHeader>
+          <DialogTitle>Edit {title}</DialogTitle>
+        </DialogHeader>
+        {children}
       </DialogContent>
     </Dialog>
   );

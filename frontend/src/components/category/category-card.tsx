@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import ActionTrigger from "../shared/action-trigger";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { deleteCategoryById } from "@/api/axios.deleteCategory";
+import UpdateCategory from "./update-category";
 
 interface CategoryCardProps {
   title: string;
@@ -23,12 +24,10 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   transactions = 0,
   _id,
 }) => {
-  const handleEdit = () => {
-    console.log();
-  };
   const handleDel = (id: string) => {
     deleteCategoryById(id);
   };
+
   return (
     <Card className="m-2 lg:w-[30%]">
       <CardHeader className="pb-0">
@@ -38,7 +37,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
             icon={<BsThreeDotsVertical size={16} />}
             title={title}
             handleDelete={() => handleDel(_id)}
-            handleEdit={handleEdit}
+            handleEdit={<UpdateCategory _id={_id} />}
             _id={_id}
           />
         </CardTitle>
