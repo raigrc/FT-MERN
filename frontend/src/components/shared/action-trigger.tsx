@@ -15,8 +15,8 @@ const ActionTrigger = ({
   handleDelete,
 }: {
   icon: React.ReactNode;
-  title: string;
-  _id: string;
+  title: string | undefined;
+  _id: string | undefined;
   handleEdit: any;
   handleDelete: (id: string) => void;
 }) => {
@@ -36,7 +36,7 @@ const ActionTrigger = ({
         </EditDialog>
         <DeleteDialogue
           item={title}
-          handleDelete={() => handleDelete(_id)}
+          handleDelete={() => handleDelete(_id!)}
           trigger={
             <Button variant="ghost" className="w-full text-destructive">
               Delete
