@@ -2,10 +2,11 @@ import React from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { DialogTitle } from "@radix-ui/react-dialog";
 
 const EditDialog = ({
   trigger,
@@ -13,7 +14,7 @@ const EditDialog = ({
   children,
 }: {
   trigger: React.ReactNode;
-  title: string;
+  title: string | undefined;
   children: React.ReactNode;
 }) => {
   return (
@@ -22,6 +23,9 @@ const EditDialog = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit {title}</DialogTitle>
+          <DialogDescription>
+            You are now editing the budget {title}
+          </DialogDescription>
         </DialogHeader>
         {children}
       </DialogContent>

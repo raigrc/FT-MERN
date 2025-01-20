@@ -17,7 +17,7 @@ const DeleteDialog = ({
 }: {
   trigger: React.ReactNode;
   handleDelete: () => void;
-  item: string;
+  item: string | undefined;
 }) => {
   return (
     <Dialog>
@@ -29,7 +29,7 @@ const DeleteDialog = ({
         <DialogDescription>
           Are you sure you want to delete '{item}'?
         </DialogDescription>
-        <div className="flex items-center w-full space-x-4">
+        <div className="flex w-full items-center space-x-4">
           <DialogClose asChild>
             <Button className="w-full" variant="outline">
               Cancel
