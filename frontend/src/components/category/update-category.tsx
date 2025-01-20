@@ -5,14 +5,15 @@ import { options } from "../shared/options";
 
 const UpdateCategory = ({ _id }: { _id: string | undefined }) => {
   const { data } = useFetch<ICategorySchema>(`/category/${_id}`, options);
-  console.log({ updateCategory: data });
 
   return (
-    <CategoryForm
-      mode="update"
-      initialValues={data || undefined}
-      categoryId={_id}
-    />
+    <>
+      <CategoryForm
+        mode="update"
+        initialValues={data || undefined}
+        categoryId={_id}
+      />
+    </>
   );
 };
 
