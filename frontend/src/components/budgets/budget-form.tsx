@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { BudgetSchema, BudgetSchemaType } from "@/schema/BudgetSchema";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,8 +23,19 @@ import { format } from "date-fns";
 import { Calendar } from "../ui/calendar";
 import SelectCategories from "../shared/select-categories";
 import ErrorMessage from "../auth/error-message";
+import { updateBudget } from "@/api/axios.updateBudget";
 
-const BudgetForm = () => {
+interface BudgetFormProps {
+  initialValues?: Partial<BudgetSchemaType>;
+  mode: "create" | "update";
+  budgetId?: string | undefined;
+}
+
+const BudgetForm: React.FC<BudgetFormProps> = ({
+  initialValues = {},
+  mode = "create",
+  budgetId,
+}) => {
   const [isPending, startTransition] = useTransition();
   const { user } = useUserStore();
   const [error, setError] = useState("");
@@ -32,21 +43,30 @@ const BudgetForm = () => {
 
   const form = useForm<BudgetSchemaType>({
     resolver: zodResolver(BudgetSchema),
+    defaultValues: initialValues,
   });
 
   const onSubmit = (values: BudgetSchemaType) => {
     startTransition(() => {
       const userId = user?._id;
 
-      addBudget(userId, values).then((response) => {
-        if (!response?.success) {
-          setError(response?.message);
-        } else {
-          setSuccess(response.message);
-        }
-      });
+      mode === "create"
+        ? addBudget(userId, values).then((response) => {
+            if (!response?.success) {
+              setError(response?.message);
+            } else {
+              setSuccess(response.message);
+            }
+          })
+        : updateBudget(values, budgetId);
     });
   };
+
+  useEffect(() => {
+    if (initialValues) {
+      form.reset(initialValues);
+    }
+  }, [initialValues]);
 
   return (
     <Form {...form}>
@@ -144,7 +164,11 @@ const BudgetForm = () => {
         />
         <ErrorMessage message={error} />
         <Button className="w-full" type="submit">
-          {isPending ? "Loading..." : "Add Budget"}
+          {isPending
+            ? "Loading..."
+            : mode === "create"
+              ? "Add Budget"
+              : "Update Budget"}
         </Button>
       </form>
     </Form>

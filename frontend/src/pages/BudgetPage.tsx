@@ -1,6 +1,7 @@
 import AddBudget from "@/components/budgets/add-budget";
 import BudgetCard from "@/components/budgets/budget-card";
 import NothingFound from "@/components/shared/nothing-found";
+import { options } from "@/components/shared/options";
 import {
   PrivateContent,
   PrivateHeader,
@@ -11,7 +12,7 @@ import useFetch from "@/hooks/useFetch";
 import { BalanceBudgetsType } from "@/types/balance.types";
 
 const BudgetPage = () => {
-  const { data } = useFetch<BalanceBudgetsType[]>("/balance/budgets");
+  const { data } = useFetch<BalanceBudgetsType[]>("/balance/budgets", options);
 
   console.log(data);
 

@@ -4,7 +4,7 @@ import BudgetForm from "./budget-form";
 const AddBudget = () => {
   return (
     <InsertData buttonTitle="Add Budget" title="Add Budget">
-      <BudgetForm />
+      <BudgetForm mode="create" />
     </InsertData>
   );
 };

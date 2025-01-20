@@ -12,9 +12,10 @@ import { format } from "date-fns";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ActionTrigger from "../shared/action-trigger";
 import { deleteBudget } from "@/api/axios.deleteBudget";
+import UpdateBudget from "./update-budget";
 
 interface BudgetCardProps {
-  _id: string;
+  _id: string | undefined;
   title: string;
   spent: number;
   total: number;
@@ -36,9 +37,6 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
   start_date,
   end_date,
 }) => {
-  const handleEdit = () => {
-    console.log(_id);
-  };
   const handleDel = (id: string) => {
     deleteBudget(id);
   };
@@ -57,8 +55,8 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
               icon={<BsThreeDotsVertical />}
               title={title}
               _id={_id}
-              handleDelete={() => handleDel(_id)}
-              handleEdit={handleEdit}
+              handleDelete={() => handleDel(_id!)}
+              handleEdit={<UpdateBudget _id={_id} />}
             />
           </div>
         </CardTitle>
