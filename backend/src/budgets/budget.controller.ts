@@ -72,7 +72,7 @@ export const findOneBudget = async (req: Request, res: Response) => {
       return;
     }
 
-    res.status(200).json({ budget });
+    res.status(200).json(budget);
   } catch (error) {
     res.status(500).json({
       error: error instanceof Error ? error.message : "Unknown error",
