@@ -6,23 +6,25 @@ import Budget from "../budgets/budget.model";
 
 export const createTransaction = async (req: Request, res: Response) => {
   try {
-    const { categoryId, transaction_date, amount } = req.body;
+    const { categoryId, amount } = req.body;
     const category = await Category.findById(categoryId);
+
+    console.log(req.body);
 
     if (
       category?.type &&
       category.type !== "income" &&
       category.type !== "savings"
     ) {
-      const new_transaction_date = new Date(transaction_date);
-      new_transaction_date.setHours(0, 0, 0, 0);
+      const transaction_date = new Date();
+      transaction_date.setHours(0, 0, 0, 0);
 
       //check if there's a budget for this transaction
       const budget = await Budget.findOne({
         categoryId,
         // amount: { $gt: amount },
-        start_date: { $lte: new_transaction_date },
-        end_date: { $gte: new_transaction_date },
+        start_date: { $lte: transaction_date },
+        end_date: { $gte: transaction_date },
       });
 
       if (!budget) {

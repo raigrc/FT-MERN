@@ -38,10 +38,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
   const { user } = useUserStore();
   const form = useForm<TransactionSchemaType>({
     resolver: zodResolver(TransactionSchema),
-    defaultValues: {
-      ...initialValues,
-      transaction_date: initialValues?.transaction_date || new Date(),
-    },
+    defaultValues: initialValues,
   });
 
   const onSubmit = (values: TransactionSchemaType) => {
