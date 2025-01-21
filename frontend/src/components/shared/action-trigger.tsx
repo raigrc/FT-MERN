@@ -15,7 +15,7 @@ const ActionTrigger = ({
   handleDelete,
 }: {
   icon: React.ReactNode;
-  title: string | undefined;
+  title: string | undefined | any;
   _id: string | undefined;
   handleEdit: any;
   handleDelete: (id: string) => void;

@@ -1,6 +1,4 @@
-import axiosInstance from "@/api/axios.instance";
 import { ICategory } from "@/types/category.types";
-import { useEffect, useState, useTransition } from "react";
 import {
   Select,
   SelectContent,
@@ -9,39 +7,33 @@ import {
   SelectValue,
 } from "../ui/select";
 import { FormControl } from "../ui/form";
+import useFetch from "@/hooks/useFetch";
+import { options } from "./options";
 
 const SelectCategories = ({
   onChange,
   defaultValue,
   type,
+  selectValue,
+  disabled,
 }: {
   onChange: () => void;
   defaultValue: string;
   type?: string;
+  selectValue?: string;
+  disabled?: boolean;
 }) => {
-  const [categories, setCategories] = useState<ICategory[]>([]);
-  const [isLoading, startTransition] = useTransition();
-  useEffect(() => {
-    startTransition(() => {
-      const getCategories = async () => {
-        try {
-          const response = await axiosInstance.get("/category", {
-            params: type ? { type } : {},
-          });
+  const { data } = useFetch<ICategory[]>(
+    `/category`,
+    options(type, { params: { type } }),
+  );
 
-          setCategories(response.data);
-        } catch (error) {
-          console.error("Error getting categories", error);
-        }
-      };
-      getCategories();
-    });
-  }, [type]);
   return (
     <Select
       onValueChange={onChange}
       defaultValue={defaultValue}
-      disabled={isLoading}
+      value={selectValue}
+      disabled={disabled}
     >
       <FormControl>
         <SelectTrigger>
@@ -49,10 +41,10 @@ const SelectCategories = ({
         </SelectTrigger>
       </FormControl>
       <SelectContent>
-        {categories.length === 0 ? (
+        {data?.length === 0 ? (
           <div>No categories found</div>
         ) : (
-          categories.map((category) => (
+          data?.map((category) => (
             <SelectItem key={category._id} value={category._id}>
               {category.name}
             </SelectItem>
