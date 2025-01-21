@@ -91,7 +91,7 @@ export const findOneTransaction = async (req: Request, res: Response) => {
       return;
     }
 
-    res.status(200).json({ transaction });
+    res.status(200).json(transaction);
   } catch (error) {
     res.status(500).json({
       error: error instanceof Error ? error.message : "Unknown error!",
