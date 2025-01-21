@@ -4,7 +4,7 @@ import InsertData from "../shared/insert-data-dialog";
 const AddTransaction = () => {
   return (
     <InsertData buttonTitle="Add Transaction" title="Add Transaction">
-      <TransactionForm />
+      <TransactionForm mode="create"/>
     </InsertData>
   );
 };

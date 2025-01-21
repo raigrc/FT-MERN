@@ -24,6 +24,7 @@ const TransactionSchema: Schema<ITransaction> = new Schema(
     transaction_date: {
       type: Date,
       required: true,
+      default: Date.now(),
     },
   },
   { timestamps: true }

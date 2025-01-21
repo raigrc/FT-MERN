@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import ActionTrigger from "../shared/action-trigger";
 import { BsThreeDots } from "react-icons/bs";
 import { deleteTransaction } from "@/api/axios.deleteTransaction";
+import UpdateTransaction from "./update-transactions";
 
 interface TransactionTableProps {
   _id: string;
@@ -20,9 +21,6 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   type,
   amount,
 }) => {
-  const handleEdit = () => {
-    console.log(_id);
-  };
   const handleDel = (id: string) => {
     deleteTransaction(id);
   };
@@ -41,14 +39,29 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
         <TableCell>
           <ActionTrigger
             icon={<BsThreeDots />}
-            title={`${description} | ${type}`}
+            title={<Title description={description} type={type} />}
             _id={_id}
             handleDelete={() => handleDel(_id)}
-            handleEdit={handleEdit}
+            handleEdit={<UpdateTransaction _id={_id} />}
           />
         </TableCell>
       </TableRow>
     </TableBody>
+  );
+};
+
+const Title = ({
+  description,
+  type,
+}: {
+  description: string | undefined;
+  type: string | undefined;
+}) => {
+  return (
+    <>
+      {description}{" "}
+      <span className="rounded bg-destructive px-2 text-xs">{type}</span>
+    </>
   );
 };
 

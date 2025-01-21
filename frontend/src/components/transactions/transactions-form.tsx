@@ -1,4 +1,4 @@
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import {
   Form,
   FormControl,
@@ -20,37 +20,59 @@ import { useUserStore } from "@/store/useUserStore";
 import { addTransaction } from "@/api/axios.addTransaction";
 import ErrorMessage from "../auth/error-message";
 import SelectCategories from "../shared/select-categories";
+import { updateTransaction } from "@/api/axios.updateTransaction";
 
-const TransactionForm = () => {
+interface TransactionFormProps {
+  initialValues?: Partial<TransactionSchemaType>;
+  mode: "create" | "update";
+  transactionId?: string;
+}
+
+const TransactionForm: React.FC<TransactionFormProps> = ({
+  initialValues = {},
+  mode = "create",
+  transactionId,
+}) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
   const { user } = useUserStore();
   const form = useForm<TransactionSchemaType>({
     resolver: zodResolver(TransactionSchema),
     defaultValues: {
-      amount: "" as any,
-      description: "",
-      transaction_date: new Date(),
+      ...initialValues,
+      transaction_date: initialValues?.transaction_date || new Date(),
     },
   });
 
   const onSubmit = (values: TransactionSchemaType) => {
+    console.log(values);
     startTransition(() => {
-      try {
-        const userId = user?._id;
+      const userId = user?._id;
 
-        addTransaction(userId, values).then((response) => {
-          if (!response?.success) {
-            setError(response?.message);
-          }
+      mode === "create"
+        ? addTransaction(userId, values).then((response) => {
+            if (!response?.success) {
+              setError(response?.message);
+            }
 
-          form.reset();
-        });
-      } catch (error) {
-        console.error("Error adding transaction", error);
-      }
+            form.reset();
+          })
+        : updateTransaction(values, transactionId);
+      // try {
+
+      // } catch (error) {
+      //   console.error("Error adding transaction", error);
+      // }
     });
   };
+
+  mode === "update"
+    ? useEffect(() => {
+        if (initialValues) {
+          form.reset(initialValues);
+        }
+      }, [initialValues])
+    : null;
 
   return (
     <Form {...form}>
@@ -64,6 +86,8 @@ const TransactionForm = () => {
               <SelectCategories
                 onChange={field.onChange}
                 defaultValue={field.value}
+                selectValue={field.value}
+                // disabled={mode === "update" || isPending}
               />
               <FormMessage />
             </FormItem>
@@ -77,7 +101,7 @@ const TransactionForm = () => {
             <FormItem>
               <FormLabel>Amount</FormLabel>
               <FormControl>
-                <Input {...field} value={field.value} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -100,7 +124,11 @@ const TransactionForm = () => {
         <ErrorMessage message={error} />
         <div className="w-full text-right">
           <Button type="submit">
-            {isPending ? "Loading..." : "Add Transaction"}
+            {isPending
+              ? "Loading..."
+              : mode === "create"
+                ? "Add Transaction"
+                : "Update Transaction"}
           </Button>
         </div>
       </form>
