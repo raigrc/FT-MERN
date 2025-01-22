@@ -216,3 +216,36 @@ export const getTransactionsWithCategories = async (
     limit,
   });
 };
+
+export const getTransactionsByMonth = async (req: Request, res: Response) => {
+  const userId = (req.user as { _id: string })._id;
+
+  const transactions = await Transaction.aggregate([
+    { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+    {
+      $lookup: {
+        from: "categories",
+        localField: "categoryId",
+        foreignField: "_id",
+        as: "category",
+      },
+    },
+    { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
+    {
+      $group: {
+        _id: {
+          yearMonth: {
+            $dateToString: { format: "%Y-%m", date: "$transaction_date" },
+          },
+          type: "$category.type",
+        },
+
+        totalAmount: { $sum: "$amount" },
+        // transactions: { $push: "$$ROOT" }, //! DO NOT NEED THIS FOR NOW
+      },
+    },
+    { $sort: { _id: 1 } },
+  ]);
+
+  res.json(transactions);
+};

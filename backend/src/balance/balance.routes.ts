@@ -4,6 +4,7 @@ import {
   getBudgets,
   getCategories,
   getOneCategory,
+  getTransactionsByMonth,
   getTransactionsWithCategories,
 } from "./balance.controller";
 import passport from "passport";
@@ -34,6 +35,11 @@ router.get(
   "/transactions",
   passport.authenticate("jwt", { session: false }),
   getTransactionsWithCategories
+);
+router.get(
+  "/transactions-per-month",
+  passport.authenticate("jwt", { session: false }),
+  getTransactionsByMonth
 );
 
 export default router;
