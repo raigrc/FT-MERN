@@ -234,13 +234,22 @@ export const getTransactionsByMonth = async (req: Request, res: Response) => {
     {
       $group: {
         _id: {
-          yearMonth: {
+          transaction_date: {
             $dateToString: { format: "%Y-%m", date: "$transaction_date" },
           },
-          type: "$category.type",
+          // type: "$category.type",
         },
-
-        totalAmount: { $sum: "$amount" },
+        expense: {
+          $sum: {
+            $cond: [{ $eq: ["$category.type", "expense"] }, "$amount", 0],
+          },
+        },
+        income: {
+          $sum: {
+            $cond: [{ $eq: ["$category.type", "income"] }, "$amount", 0],
+          },
+        },
+        // totalAmount: { $sum: "$amount" },
         // transactions: { $push: "$$ROOT" }, //! DO NOT NEED THIS FOR NOW
       },
     },
