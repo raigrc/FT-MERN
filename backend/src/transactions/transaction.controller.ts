@@ -9,8 +9,6 @@ export const createTransaction = async (req: Request, res: Response) => {
     const { categoryId, amount } = req.body;
     const category = await Category.findById(categoryId);
 
-    console.log(req.body);
-
     if (
       category?.type &&
       category.type !== "income" &&
