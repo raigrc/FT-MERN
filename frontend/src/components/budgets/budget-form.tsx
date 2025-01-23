@@ -63,7 +63,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
   };
 
   useEffect(() => {
-    if (initialValues) {
+    if (mode === "update" && initialValues) {
       form.reset(initialValues);
     }
   }, [initialValues]);

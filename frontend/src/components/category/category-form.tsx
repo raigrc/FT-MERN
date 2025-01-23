@@ -47,7 +47,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   };
 
   useEffect(() => {
-    if (initialValues) {
+    if (mode === "update" && initialValues) {
       form.reset(initialValues);
     }
   }, [initialValues]);

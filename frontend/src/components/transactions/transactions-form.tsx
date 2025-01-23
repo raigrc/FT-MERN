@@ -63,13 +63,11 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
     });
   };
 
-  mode === "update"
-    ? useEffect(() => {
-        if (initialValues) {
-          form.reset(initialValues);
-        }
-      }, [initialValues])
-    : null;
+  useEffect(() => {
+    if (mode === "update" && initialValues) {
+      form.reset(initialValues);
+    }
+  }, [initialValues]);
 
   return (
     <Form {...form}>
