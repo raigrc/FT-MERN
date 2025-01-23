@@ -1,28 +1,65 @@
-import { Bar, BarChart, XAxis } from "recharts";
-import { ChartConfig, ChartContainer } from "@/components/ui/chart";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 import { Card, CardContent } from "../ui/card";
+import useFetch from "@/hooks/useFetch";
+import { options } from "../shared/options";
+import { format, parse } from "date-fns";
+
+interface TransactionPerMonthProps {
+  _id: {
+    transaction_date: string;
+  };
+  income: number;
+  expense: number;
+}
+
 const DashboardChart = () => {
-  const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 186, mobile: 80 },
-    { month: "March", desktop: 186, mobile: 80 },
-    { month: "April", desktop: 186, mobile: 80 },
-    { month: "May", desktop: 186, mobile: 80 },
-    { month: "June", desktop: 186, mobile: 80 },
-  ];
+  const { data } = useFetch<TransactionPerMonthProps[]>(
+    `/balance/transactions-per-month`,
+    options,
+  );
+
+  const formattedDate = data?.map((item) => {
+    const formatToMonth = format(
+      parse(item._id.transaction_date, "yyyy-MM", new Date()),
+      "MMMM",
+    );
+    return {
+      ...item,
+      _id: {
+        ...item._id,
+        formatToMonth,
+      },
+    };
+  });
+
+  console.log(formattedDate);
 
   const chartConfig = {
-    desktop: { label: "Desktop", color: "hsl(var(--primary))" },
-    mobile: { label: "Mobile", color: "hsl(var(--destructive))" },
+    income: { label: "Income", color: "hsl(var(--primary))" },
+    expense: { label: "Expense", color: "hsl(var(--destructive))" },
   } satisfies ChartConfig;
   return (
     <Card className="w-2/3">
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
-            <XAxis dataKey="month" />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+          <BarChart accessibilityLayer data={formattedDate}>
+            <CartesianGrid vertical={false} />
+            <XAxis dataKey="_id.formatToMonth" />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="dot" />}
+            />
+            <Bar dataKey="income" fill="var(--color-income)" radius={4} />
+            <Bar dataKey="expense" fill="var(--color-expense)" radius={4} />
+            <ChartLegend content={<ChartLegendContent />} />
           </BarChart>
         </ChartContainer>
       </CardContent>

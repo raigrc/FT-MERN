@@ -13,9 +13,17 @@ import useFetch from "@/hooks/useFetch";
 import { TotalBalanceType } from "@/types/balance.types";
 import DashboardChart from "@/components/dashboard/dashboard-chart";
 import RecentTransactions from "@/components/dashboard/recent-transactions";
+import { options } from "@/components/shared/options";
+import { BalanceTransactions } from "@/types/balance.types";
 
 const DashboardPage = () => {
-  const { data } = useFetch<TotalBalanceType>("/balance");
+  const { data: balanceData } = useFetch<TotalBalanceType>("/balance", options);
+  const { data: transactionData } = useFetch<BalanceTransactions>(
+    `/balance/transactions`,
+    options,
+  );
+
+  console.log(transactionData);
 
   return (
     <PrivateLayout>
@@ -28,23 +36,23 @@ const DashboardPage = () => {
             <DashboardCard
               title="Total Balance"
               icon={<CiMoneyBill />}
-              amount={data?.totalBalance}
+              amount={balanceData?.totalBalance}
             />
             <DashboardCard
               title="Expenses"
               icon={<LuCreditCard />}
-              amount={data?.totalExpense}
+              amount={balanceData?.totalExpense}
             />
             <DashboardCard
               title="Savings"
               icon={<TbPigMoney />}
-              amount={data?.totalSavings}
+              amount={balanceData?.totalSavings}
             />
           </IconContext.Provider>
         </div>
         <div className="flex justify-between gap-4">
           <DashboardChart />
-          <RecentTransactions />
+          <RecentTransactions data={transactionData} />
         </div>
       </PrivateContent>
     </PrivateLayout>

@@ -7,8 +7,10 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { BalanceTransactions } from "@/types/balance.types";
+import { formatCurrency } from "@/lib/format-currency";
 
-const RecentTransactions = () => {
+const RecentTransactions = ({ data }: { data: BalanceTransactions | null }) => {
   return (
     <Card className="w-1/3">
       <CardHeader>
@@ -24,31 +26,18 @@ const RecentTransactions = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>Description1</TableCell>
-              <TableCell>income</TableCell>
-              <TableCell className="text-green-500">500</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Description1</TableCell>
-              <TableCell>income</TableCell>
-              <TableCell className="text-green-500">500</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Description1</TableCell>
-              <TableCell>income</TableCell>
-              <TableCell className="text-green-500">500</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Description1</TableCell>
-              <TableCell>income</TableCell>
-              <TableCell className="text-green-500">500</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Description1</TableCell>
-              <TableCell>income</TableCell>
-              <TableCell className="text-green-500">500</TableCell>
-            </TableRow>
+            {data?.transactions.map((transaction: any) => (
+              <TableRow key={transaction._id}>
+                <TableCell>{transaction.description}</TableCell>
+                <TableCell>{transaction.categories.type}</TableCell>
+                <TableCell
+                  className={`${transaction.categories.type === "income" ? "text-green-500" : "text-destructive"}`}
+                >
+                  {transaction.categories.type === "income" ? "+" : "-"}
+                  {formatCurrency(transaction.amount)}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </CardContent>
