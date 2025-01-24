@@ -33,7 +33,7 @@ const PrivateContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={`h-full py-6 ${className}`} {...props} />
+  <div ref={ref} className={`h-full ${className}`} {...props} />
 ));
 
 export { PrivateLayout, PrivateHeader, PrivateTitle, PrivateContent };
