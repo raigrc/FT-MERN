@@ -17,6 +17,7 @@ import React, { useEffect, useTransition } from "react";
 import { addCategory } from "@/api/axios.addCategory";
 import { useUserStore } from "@/store/useUserStore";
 import { updateCategory } from "@/api/axios.updateCategory";
+import { useCategoriesStore } from "@/store/useCategoriesStore";
 interface CategoryFormProps {
   initialValues?: Partial<ICategorySchema>;
   mode: "create" | "update";
@@ -34,6 +35,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const [isPending, startTransition] = useTransition();
   const { user } = useUserStore();
+  const { fetchCategories } = useCategoriesStore();
 
   const onSubmit = (values: ICategorySchema) => {
     startTransition(() => {
@@ -41,8 +43,12 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       console.log(values);
 
       mode === "create"
-        ? addCategory(userId, values)
-        : updateCategory(values, categoryId);
+        ? addCategory(userId, values).then(() => {
+            fetchCategories();
+          })
+        : updateCategory(values, categoryId).then(() => {
+            fetchCategories();
+          });
     });
   };
 

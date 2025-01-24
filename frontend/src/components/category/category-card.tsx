@@ -12,6 +12,7 @@ import ActionTrigger from "../shared/action-trigger";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { deleteCategoryById } from "@/api/axios.deleteCategory";
 import UpdateCategory from "./update-category";
+import { useCategoriesStore } from "@/store/useCategoriesStore";
 
 interface CategoryCardProps {
   title: string;
@@ -24,8 +25,10 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   transactions = 0,
   _id,
 }) => {
+  const { fetchCategories } = useCategoriesStore();
   const handleDel = (id: string) => {
     deleteCategoryById(id);
+    fetchCategories();
   };
 
   return (

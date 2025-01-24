@@ -1,22 +1,26 @@
 import AddCategory from "@/components/category/add-category";
 import CategoryCard from "@/components/category/category-card";
 import NothingFound from "@/components/shared/nothing-found";
-import { options } from "@/components/shared/options";
 import {
   PrivateContent,
   PrivateHeader,
   PrivateLayout,
   PrivateTitle,
 } from "@/components/shared/private-layout";
-import useFetch from "@/hooks/useFetch";
-import { BalanceCategoriesType } from "@/types/balance.types";
+import { useCategoriesStore } from "@/store/useCategoriesStore";
+import { useEffect } from "react";
 
 const CategoryPage = () => {
-  const { data } = useFetch<BalanceCategoriesType[]>(
-    "/balance/categories",
-    options,
-  );
-  console.log(data);
+  const { categories, fetchCategories } = useCategoriesStore();
+  // const { data } = useFetch<BalanceCategoriesType[]>(
+  //   "/balance/categories",
+  //   options,
+  // );
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  console.log(categories);
 
   return (
     <>
@@ -27,10 +31,10 @@ const CategoryPage = () => {
         </PrivateHeader>
         <PrivateContent>
           <div className="flex flex-wrap items-center">
-            {data?.length === 0 ? (
+            {categories?.length === 0 ? (
               <NothingFound title="Category" />
             ) : (
-              data?.map((category: any) => {
+              categories?.map((category: any) => {
                 return (
                   <CategoryCard
                     key={category._id}
