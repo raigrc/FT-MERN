@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, verifyToken } from "./auth.controller";
+import { login, signOut, verifyToken } from "./auth.controller";
 import passport from "passport";
 
 const router = Router();
@@ -9,6 +9,11 @@ router.get(
   "/verify",
   passport.authenticate("jwt", { session: false }),
   verifyToken
+);
+router.get(
+  "/signout",
+  passport.authenticate("jwt", { session: false }),
+  signOut
 );
 
 export default router;

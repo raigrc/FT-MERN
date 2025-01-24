@@ -46,3 +46,8 @@ export const verifyToken = (req: Request, res: Response) => {
     console.error("Error during login:", error);
   }
 };
+
+export const signOut = (req: Request, res: Response) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "Signout successful!" });
+};
