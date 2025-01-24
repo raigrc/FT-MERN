@@ -4,15 +4,14 @@ import { create } from "zustand";
 
 interface ICategoryStore {
   categories: BalanceCategoriesType[] | null;
-  setCategories: (categories: BalanceCategoriesType[]) => void;
-  addCategoryStore: (category: BalanceCategoriesType) => void;
-  fetchCategories: () => void;
+  fetchCategories: (options?: any) => void;
 }
 export const useCategoriesStore = create<ICategoryStore>((set) => ({
   categories: null,
-  setCategories: (categories) => set({ categories }),
-  fetchCategories: async () => {
-    const response = await axiosInstance.get("/balance/categories");
+  fetchCategories: async (options = {}) => {
+    const response = await axiosInstance.get("/balance/categories", {
+      params: options,
+    });
     if (response.status !== 200) {
       throw new Error("Failed fetching data");
     }
@@ -22,10 +21,4 @@ export const useCategoriesStore = create<ICategoryStore>((set) => ({
       categories: data,
     });
   },
-  addCategoryStore: (category) =>
-    set((state) => ({
-      categories: state.categories
-        ? [...state.categories, category]
-        : [category],
-    })),
 }));

@@ -1,3 +1,4 @@
+import FilterSearch from "@/components/shared/filter-search";
 import NothingFound from "@/components/shared/nothing-found";
 import PaginationComp from "@/components/shared/pagination";
 import {
@@ -16,12 +17,6 @@ const TransactionPage = () => {
   const [page, setPage] = useState<number | undefined>(1);
   const { transactions, fetchTransactions } = useTransactionsStore();
 
-  // const options = useMemo(() => ({ params: { page } }), [page]); // to ensure that it does not refetch always
-  // const { data } = useFetch<BalanceTransactions>(
-  //   `/balance/transactions`,
-  //   options(page, { params: { page } }),
-  // );
-
   useEffect(() => {
     fetchTransactions({ page: page });
   }, [page]);
@@ -32,9 +27,11 @@ const TransactionPage = () => {
     <PrivateLayout>
       <PrivateHeader className="space-y-4">
         <PrivateTitle>Transactions</PrivateTitle>
-        <AddTransaction />
+        <div className="flex items-center justify-start space-x-4">
+          <FilterSearch onHandleChange={(e)=> fetchTransactions({search: e})} placeholder="search for description"/>
+          <AddTransaction/> </div>
       </PrivateHeader>
-      <PrivateContent className="flex h-full flex-col">
+      <PrivateContent className="flex flex-col h-full">
         <Table>
           <TableHeader>
             <TableRow>

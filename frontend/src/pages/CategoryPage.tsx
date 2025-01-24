@@ -1,5 +1,6 @@
 import AddCategory from "@/components/category/add-category";
 import CategoryCard from "@/components/category/category-card";
+import FilterSearch from "@/components/shared/filter-search";
 import NothingFound from "@/components/shared/nothing-found";
 import {
   PrivateContent,
@@ -27,7 +28,13 @@ const CategoryPage = () => {
       <PrivateLayout>
         <PrivateHeader className="space-y-4">
           <PrivateTitle>Categories</PrivateTitle>
-          <AddCategory />
+          <div className="flex items-center justify-start space-x-4">
+            <FilterSearch
+              onHandleChange={(e) => fetchCategories({ name: e })}
+              placeholder="Name of category"
+            />
+            <AddCategory />
+          </div>
         </PrivateHeader>
         <PrivateContent>
           <div className="flex flex-wrap items-center">

@@ -70,6 +70,11 @@ export const getAllBalance = async (req: Request, res: Response) => {
 
 export const getBudgets = async (req: Request, res: Response) => {
   const userId = (req.user as { _id: string })._id;
+  const { categoryName } = req.query;
+
+  const matchCategoryName = categoryName
+    ? { "category.name": { $regex: categoryName, $options: "i" } }
+    : {};
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -80,6 +85,7 @@ export const getBudgets = async (req: Request, res: Response) => {
         userId: new mongoose.Types.ObjectId(userId),
         start_date: { $lte: today },
         end_date: { $gte: today },
+        ...matchCategoryName,
       },
     },
     {
@@ -125,9 +131,12 @@ export const getBudgets = async (req: Request, res: Response) => {
 
 export const getCategories = async (req: Request, res: Response) => {
   const userId = (req.user as { _id: string })._id;
+  const { name } = req.query;
+
+  const matchName = name ? { name: { $regex: name, $options: "i" } } : {};
 
   const categories = await Category.aggregate([
-    { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+    { $match: { userId: new mongoose.Types.ObjectId(userId), ...matchName } },
     {
       $lookup: {
         from: "transactions",
@@ -175,13 +184,17 @@ export const getTransactionsWithCategories = async (
   const userId = (req.user as { _id: string })._id;
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
+  const { search } = req.query;
+
+  const matchSearch = search
+    ? { description: { $regex: search, $options: "i" } }
+    : {};
 
   const totalTransactions = await Transaction.countDocuments({
     userId: new mongoose.Types.ObjectId(userId),
   });
 
   const transactions = await Transaction.aggregate([
-    { $match: { userId: new mongoose.Types.ObjectId(userId) } },
     { $sort: { transaction_date: -1 } },
     { $skip: (page - 1) * limit },
     { $limit: limit },
@@ -194,6 +207,7 @@ export const getTransactionsWithCategories = async (
       },
     },
     { $unwind: { path: "$categories", preserveNullAndEmptyArrays: true } },
+    { $match: { userId: new mongoose.Types.ObjectId(userId), ...matchSearch } },
     // {
     //   $project: {
     //     amount: 1,

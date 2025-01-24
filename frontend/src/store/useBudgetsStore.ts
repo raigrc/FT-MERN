@@ -3,20 +3,15 @@ import { BalanceBudgetsType } from "@/types/balance.types";
 import { create } from "zustand";
 interface IBudgetsStore {
   budgets: BalanceBudgetsType[] | null;
-  setBudgets: (budgets: BalanceBudgetsType[]) => void;
-  fetchBudgets: () => void;
-  addBudgetStore: (budget: BalanceBudgetsType) => void;
+  fetchBudgets: (options?: any) => void;
 }
 
 export const useBudgetsStore = create<IBudgetsStore>((set) => ({
   budgets: null,
-  setBudgets: (budgets) => set({ budgets }),
-  addBudgetStore: (budget) =>
-    set((state) => ({
-      budgets: state.budgets ? [budget, ...state.budgets] : [budget],
-    })),
-  fetchBudgets: async () => {
-    const response = await axiosInstance.get("/balance/budgets");
+  fetchBudgets: async (options = {}) => {
+    const response = await axiosInstance.get("/balance/budgets", {
+      params: { options },
+    });
     if (response.status !== 200) {
       throw new Error("Failed fetching data");
     }

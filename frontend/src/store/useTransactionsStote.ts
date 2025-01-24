@@ -4,22 +4,10 @@ import { create } from "zustand";
 
 interface ITransactionsStore {
   transactions: BalanceTransactions | null;
-  setTransactions: (transactions: BalanceTransactions) => void;
-  addTransactionStore: (transaction: any) => void;
   fetchTransactions: (options: any) => void;
 }
 export const useTransactionsStore = create<ITransactionsStore>((set) => ({
   transactions: null,
-  setTransactions: (transactions) => set({ transactions }),
-  addTransactionStore: (transaction) =>
-    set(
-      (state) =>
-        ({
-          transactions: state.transactions
-            ? [transaction, ...state.transactions.transactions]
-            : { ...transaction },
-        }) as ITransactionsStore,
-    ),
   fetchTransactions: async (options: {}) => {
     const response = await axiosInstance.get("/balance/transactions", {
       params: options,

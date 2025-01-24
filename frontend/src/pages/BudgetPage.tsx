@@ -1,5 +1,6 @@
 import AddBudget from "@/components/budgets/add-budget";
 import BudgetCard from "@/components/budgets/budget-card";
+import FilterSearch from "@/components/shared/filter-search";
 import NothingFound from "@/components/shared/nothing-found";
 import {
   PrivateContent,
@@ -24,7 +25,13 @@ const BudgetPage = () => {
     <PrivateLayout>
       <PrivateHeader className="space-y-4">
         <PrivateTitle>Budgets</PrivateTitle>
-        <AddBudget />
+        <div className="flex justify-start space-x-4 itmes-center">
+          <FilterSearch
+            onHandleChange={(e) => fetchBudgets({ name: e })}
+            placeholder="Name of budget"
+          />
+          <AddBudget />
+        </div>
       </PrivateHeader>
       <PrivateContent>
         <div className="flex flex-wrap items-center gap-3">
