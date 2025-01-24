@@ -1,20 +1,24 @@
 import AddBudget from "@/components/budgets/add-budget";
 import BudgetCard from "@/components/budgets/budget-card";
 import NothingFound from "@/components/shared/nothing-found";
-import { options } from "@/components/shared/options";
 import {
   PrivateContent,
   PrivateHeader,
   PrivateLayout,
   PrivateTitle,
 } from "@/components/shared/private-layout";
-import useFetch from "@/hooks/useFetch";
-import { BalanceBudgetsType } from "@/types/balance.types";
+import { useBudgetsStore } from "@/store/useBudgetsStore";
+import { useEffect } from "react";
 
 const BudgetPage = () => {
-  const { data } = useFetch<BalanceBudgetsType[]>("/balance/budgets", options);
+  const { budgets, fetchBudgets } = useBudgetsStore();
+  // const { data } = useFetch<BalanceBudgetsType[]>("/balance/budgets", options);
 
-  console.log(data);
+  console.log(budgets);
+
+  useEffect(() => {
+    fetchBudgets();
+  }, []);
 
   return (
     <PrivateLayout>
@@ -24,10 +28,10 @@ const BudgetPage = () => {
       </PrivateHeader>
       <PrivateContent>
         <div className="flex flex-wrap items-center gap-3">
-          {data?.length === 0 ? (
+          {budgets?.length === 0 ? (
             <NothingFound title="Budget" />
           ) : (
-            data?.map((budget) => {
+            budgets?.map((budget) => {
               const remaining = budget.amount - budget.totalSpent;
               const percent = (budget.totalSpent / budget.amount) * 100;
               return (

@@ -13,6 +13,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import ActionTrigger from "../shared/action-trigger";
 import { deleteBudget } from "@/api/axios.deleteBudget";
 import UpdateBudget from "./update-budget";
+import { useBudgetsStore } from "@/store/useBudgetsStore";
 
 interface BudgetCardProps {
   _id: string | undefined;
@@ -37,8 +38,10 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
   start_date,
   end_date,
 }) => {
+  const { fetchBudgets } = useBudgetsStore();
   const handleDel = (id: string) => {
     deleteBudget(id);
+    fetchBudgets();
   };
   return (
     <Card className="max-w-sm flex-1">

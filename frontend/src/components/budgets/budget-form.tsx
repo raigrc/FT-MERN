@@ -24,6 +24,7 @@ import { Calendar } from "../ui/calendar";
 import SelectCategories from "../shared/select-categories";
 import ErrorMessage from "../auth/error-message";
 import { updateBudget } from "@/api/axios.updateBudget";
+import { useBudgetsStore } from "@/store/useBudgetsStore";
 
 interface BudgetFormProps {
   initialValues?: Partial<BudgetSchemaType>;
@@ -36,6 +37,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
   mode = "create",
   budgetId,
 }) => {
+  const { fetchBudgets } = useBudgetsStore();
   const [isPending, startTransition] = useTransition();
   const { user } = useUserStore();
   const [error, setError] = useState("");
@@ -51,14 +53,12 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
       const userId = user?._id;
 
       mode === "create"
-        ? addBudget(userId, values).then((response) => {
-            if (!response?.success) {
-              setError(response?.message);
-            } else {
-              setSuccess(response.message);
-            }
+        ? addBudget(userId, values).then(() => {
+            fetchBudgets();
           })
-        : updateBudget(values, budgetId);
+        : updateBudget(values, budgetId).then(() => {
+            fetchBudgets();
+          });
     });
   };
 
