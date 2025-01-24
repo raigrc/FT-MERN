@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/format-currency";
+import CountUp from "react-countup";
 interface DashboardCardProps {
   title: string;
   icon: React.ReactNode;
@@ -20,7 +21,15 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
         </div>
       </CardHeader>
       <CardContent>
-        <CardTitle>{formatCurrency(amount)}</CardTitle>
+        <CountUp
+          end={amount}
+          duration={1}
+          formattingFn={(value) => formatCurrency(value)}
+        >
+          {({ countUpRef }: { countUpRef: any }) => (
+            <CardTitle ref={countUpRef}></CardTitle>
+          )}
+        </CountUp>
       </CardContent>
     </Card>
   );

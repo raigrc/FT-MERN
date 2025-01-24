@@ -20,7 +20,7 @@ const DashboardPage = () => {
   const { data: balanceData } = useFetch<TotalBalanceType>("/balance", options);
   const { data: transactionData } = useFetch<BalanceTransactions>(
     `/balance/transactions`,
-    options,
+    options("", { params: { limit: 5 } }),
   );
 
   console.log(transactionData);

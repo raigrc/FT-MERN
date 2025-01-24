@@ -7,7 +7,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import useFetch from "@/hooks/useFetch";
 import { options } from "../shared/options";
 import { format, parse } from "date-fns";
@@ -47,12 +47,20 @@ const DashboardChart = () => {
     expense: { label: "Expense", color: "hsl(var(--destructive))" },
   } satisfies ChartConfig;
   return (
-    <Card className="w-2/3">
+    <Card className="w-3/5">
+      <CardHeader>
+        <CardTitle>Overview</CardTitle>
+      </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="h-auto">
           <BarChart accessibilityLayer data={formattedDate}>
             <CartesianGrid vertical={false} />
-            <XAxis dataKey="_id.formatToMonth" />
+            <XAxis
+              dataKey="_id.formatToMonth"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+            />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dot" />}
