@@ -2,6 +2,9 @@ import { items } from "@/data/navbar.data";
 import SidebarHeader from "./sidebar-header";
 import SidebarItem from "./sidebar-item";
 import { useUserStore } from "@/store/useUserStore";
+import { Separator } from "../ui/separator";
+import { Button } from "../ui/button";
+import { signOut } from "@/api/axios.signOut";
 
 const Sidebar = () => {
   const { user } = useUserStore();
@@ -18,6 +21,19 @@ const Sidebar = () => {
           />
         ))}
       </div>
+      <Separator />
+      <Button
+        onClick={() => {
+          signOut().then((response) => {
+            if (response.success) {
+              window.location.reload();
+            }
+          });
+        }}
+        className="w-full"
+      >
+        Sign out
+      </Button>
     </div>
   );
 };

@@ -1,12 +1,20 @@
 import { Link } from "react-router-dom";
 
-const LoginFooter = () => {
+const LoginFooter = ({
+  href,
+  title,
+  p,
+}: {
+  href: string;
+  title: string;
+  p: string;
+}) => {
   return (
     <>
       <p className="text-sm">
-        Don't have an account yet? &nbsp;
-        <Link to="/signup" className="font-bold text-primary">
-          Sign up
+        {p} &nbsp;
+        <Link to={href} className="font-bold text-primary">
+          {title}
         </Link>
       </p>
     </>
