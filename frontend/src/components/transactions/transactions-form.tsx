@@ -21,6 +21,7 @@ import { addTransaction } from "@/api/axios.addTransaction";
 import ErrorMessage from "../auth/error-message";
 import SelectCategories from "../shared/select-categories";
 import { updateTransaction } from "@/api/axios.updateTransaction";
+import { useTransactionsStore } from "@/store/useTransactionsStote";
 
 interface TransactionFormProps {
   initialValues?: Partial<TransactionSchemaType>;
@@ -36,6 +37,8 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
   const { user } = useUserStore();
+  const { fetchTransactions } = useTransactionsStore();
+
   const form = useForm<TransactionSchemaType>({
     resolver: zodResolver(TransactionSchema),
     defaultValues: initialValues,
@@ -47,14 +50,16 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
       const userId = user?._id;
 
       mode === "create"
-        ? addTransaction(userId, values).then((response) => {
-            if (!response?.success) {
-              setError(response?.message);
-            }
+        ? addTransaction(userId, values).then(() => {
+            fetchTransactions("");
 
             form.reset();
           })
-        : updateTransaction(values, transactionId);
+        : updateTransaction(values, transactionId).then(() => {
+            fetchTransactions("");
+
+            form.reset();
+          });
       // try {
 
       // } catch (error) {

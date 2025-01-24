@@ -6,6 +6,7 @@ import ActionTrigger from "../shared/action-trigger";
 import { BsThreeDots } from "react-icons/bs";
 import { deleteTransaction } from "@/api/axios.deleteTransaction";
 import UpdateTransaction from "./update-transactions";
+import { useTransactionsStore } from "@/store/useTransactionsStote";
 
 interface TransactionTableProps {
   _id: string;
@@ -21,8 +22,10 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   type,
   amount,
 }) => {
+  const { fetchTransactions } = useTransactionsStore();
   const handleDel = (id: string) => {
     deleteTransaction(id);
+    fetchTransactions("");
   };
   return (
     <TableBody>
