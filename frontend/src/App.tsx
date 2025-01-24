@@ -11,6 +11,7 @@ import CategoryPage from "./pages/CategoryPage";
 import TransactionPage from "./pages/TransactionPage";
 import SettingsPage from "./pages/SettingsPage";
 import CategoryId from "./components/category/category";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
   const { setUser, clearUser } = useUserStore();
@@ -35,7 +36,9 @@ function App() {
         <Routes>
           <Route element={<AuthRoute />}>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
           </Route>
+
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/budgets" element={<BudgetPage />} />
