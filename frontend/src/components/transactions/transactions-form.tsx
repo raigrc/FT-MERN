@@ -22,6 +22,8 @@ import ErrorMessage from "../auth/error-message";
 import SelectCategories from "../shared/select-categories";
 import { updateTransaction } from "@/api/axios.updateTransaction";
 import { useTransactionsStore } from "@/store/useTransactionsStote";
+import { toast } from "sonner";
+import { format } from "date-fns";
 
 interface TransactionFormProps {
   initialValues?: Partial<TransactionSchemaType>;
@@ -50,21 +52,24 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
       const userId = user?._id;
 
       mode === "create"
-        ? addTransaction(userId, values).then(() => {
-            fetchTransactions("");
-
-            form.reset();
+        ? addTransaction(userId, values).then((response) => {
+            if (response.success) {
+              fetchTransactions();
+              form.reset();
+              toast.success(response.message, {
+                description: format(new Date(), "PPpp"),
+              });
+            }
           })
-        : updateTransaction(values, transactionId).then(() => {
-            fetchTransactions("");
-
-            form.reset();
+        : updateTransaction(values, transactionId).then((response) => {
+            if (response.success) {
+              fetchTransactions();
+              form.reset();
+              toast.success(response.message, {
+                description: format(new Date(), "PPpp"),
+              });
+            }
           });
-      // try {
-
-      // } catch (error) {
-      //   console.error("Error adding transaction", error);
-      // }
     });
   };
 

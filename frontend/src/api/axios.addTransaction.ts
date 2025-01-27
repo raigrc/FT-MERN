@@ -7,18 +7,15 @@ export const addTransaction = async (
   data: TransactionSchemaType,
 ) => {
   try {
-    await axiosInstance
-      .post("/transactions", { userId, ...data })
-      .then((response) => {
-        console.log("Transaction added:", response);
-        return { success: true, message: "Transaction added successfully" };
-      });
+    const response = await axiosInstance.post("/transactions", {
+      userId,
+      ...data,
+    });
+
+    return { success: true, message: response.data.message };
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      return {
-        success: false,
-        message: error.response?.data.message || "An error occurred",
-      };
+      return { success: false, message: error.response?.data.message };
     } else {
       return {
         success: false,
@@ -26,5 +23,4 @@ export const addTransaction = async (
       };
     }
   }
-  return;
 };

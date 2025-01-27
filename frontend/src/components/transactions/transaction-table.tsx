@@ -7,6 +7,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { deleteTransaction } from "@/api/axios.deleteTransaction";
 import UpdateTransaction from "./update-transactions";
 import { useTransactionsStore } from "@/store/useTransactionsStote";
+import { toast } from "sonner";
 
 interface TransactionTableProps {
   _id: string;
@@ -24,8 +25,12 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 }) => {
   const { fetchTransactions } = useTransactionsStore();
   const handleDel = (id: string) => {
-    deleteTransaction(id);
-    fetchTransactions("");
+    deleteTransaction(id).then((response) => {
+      if (response.success) {
+        fetchTransactions();
+        toast.error(response.message);
+      }
+    });
   };
   return (
     <TableBody>
@@ -63,7 +68,11 @@ const Title = ({
   return (
     <>
       {description}{" "}
-      <span className="rounded bg-destructive px-2 text-xs">{type}</span>
+      <span
+        className={` ${type === "income" ? "bg-green-400" : "bg-destructive"} rounded px-2 text-xs`}
+      >
+        {type}
+      </span>
     </>
   );
 };

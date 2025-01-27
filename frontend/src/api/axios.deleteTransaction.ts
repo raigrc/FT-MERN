@@ -3,10 +3,9 @@ import axiosInstance from "./axios.instance";
 
 export const deleteTransaction = async (id: string) => {
   try {
-    await axiosInstance.delete(`/transactions/${id}`).then((response) => {
-      console.log(response.data.message);
-      return { success: true, message: response.data.message };
-    });
+    const response = await axiosInstance.delete(`/transactions/${id}`);
+
+    return { success: true, message: response.data.message };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return {
