@@ -25,6 +25,7 @@ import SelectCategories from "../shared/select-categories";
 import ErrorMessage from "../auth/error-message";
 import { updateBudget } from "@/api/axios.updateBudget";
 import { useBudgetsStore } from "@/store/useBudgetsStore";
+import { toast } from "sonner";
 
 interface BudgetFormProps {
   initialValues?: Partial<BudgetSchemaType>;
@@ -41,7 +42,6 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
   const [isPending, startTransition] = useTransition();
   const { user } = useUserStore();
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(""); //! add success message or toast/sonner
 
   const form = useForm<BudgetSchemaType>({
     resolver: zodResolver(BudgetSchema),
@@ -53,11 +53,25 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
       const userId = user?._id;
 
       mode === "create"
-        ? addBudget(userId, values).then(() => {
-            fetchBudgets();
+        ? addBudget(userId, values).then((response) => {
+            if (response?.success) {
+              fetchBudgets();
+              toast.success(response.message, {
+                description: format(new Date(), "PPpp"),
+              });
+            } else {
+              setError(response.message);
+            }
           })
-        : updateBudget(values, budgetId).then(() => {
-            fetchBudgets();
+        : updateBudget(values, budgetId).then((response) => {
+            if (response?.success) {
+              fetchBudgets();
+              toast.success(response.message, {
+                description: format(new Date(), "PPpp"),
+              });
+            } else {
+              setError(response.message);
+            }
           });
     });
   };

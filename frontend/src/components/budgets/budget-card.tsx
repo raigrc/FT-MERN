@@ -14,6 +14,7 @@ import ActionTrigger from "../shared/action-trigger";
 import { deleteBudget } from "@/api/axios.deleteBudget";
 import UpdateBudget from "./update-budget";
 import { useBudgetsStore } from "@/store/useBudgetsStore";
+import { toast } from "sonner";
 
 interface BudgetCardProps {
   _id: string | undefined;
@@ -40,11 +41,15 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
 }) => {
   const { fetchBudgets } = useBudgetsStore();
   const handleDel = (id: string) => {
-    deleteBudget(id);
-    fetchBudgets();
+    deleteBudget(id).then((response) => {
+      if (response.success) {
+        fetchBudgets();
+        toast.error(response.message);
+      }
+    });
   };
   return (
-    <Card className="max-w-sm flex-1">
+    <Card className="flex-1 max-w-sm">
       <CardHeader>
         <CardTitle className="flex items-center justify-between gap-4 text-xl">
           <h1>{title}</h1>
