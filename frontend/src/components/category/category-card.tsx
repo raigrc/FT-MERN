@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useTransition } from "react";
 import {
   Card,
   CardContent,
@@ -13,6 +13,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { deleteCategoryById } from "@/api/axios.deleteCategory";
 import UpdateCategory from "./update-category";
 import { useCategoriesStore } from "@/store/useCategoriesStore";
+import { toast } from "sonner";
 
 interface CategoryCardProps {
   title: string;
@@ -27,8 +28,14 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 }) => {
   const { fetchCategories } = useCategoriesStore();
   const handleDel = (id: string) => {
-    deleteCategoryById(id);
-    fetchCategories();
+    deleteCategoryById(id).then((response) => {
+      console.log(response);
+
+      if (response?.success) {
+        toast.error(response.message);
+        fetchCategories();
+      }
+    });
   };
 
   return (

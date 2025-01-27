@@ -18,6 +18,8 @@ import { addCategory } from "@/api/axios.addCategory";
 import { useUserStore } from "@/store/useUserStore";
 import { updateCategory } from "@/api/axios.updateCategory";
 import { useCategoriesStore } from "@/store/useCategoriesStore";
+import { toast } from "sonner";
+import { format } from "date-fns";
 interface CategoryFormProps {
   initialValues?: Partial<ICategorySchema>;
   mode: "create" | "update";
@@ -43,11 +45,23 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       console.log(values);
 
       mode === "create"
-        ? addCategory(userId, values).then(() => {
-            fetchCategories();
+        ? addCategory(userId, values).then((response) => {
+            console.log({ response });
+
+            if (response?.success) {
+              fetchCategories();
+              toast.success(response.message, {
+                description: format(new Date(), "PPpp"),
+              });
+            }
           })
-        : updateCategory(values, categoryId).then(() => {
-            fetchCategories();
+        : updateCategory(values, categoryId).then((response) => {
+            if (response?.success) {
+              fetchCategories();
+              toast.success(response.message, {
+                description: format(new Date(), "PPpp"),
+              });
+            }
           });
     });
   };

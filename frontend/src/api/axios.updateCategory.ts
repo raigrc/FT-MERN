@@ -7,13 +7,8 @@ export const updateCategory = async (
   categoryId: string | undefined,
 ) => {
   try {
-    await axiosInstance
-      .put(`/category/${categoryId}`, values)
-      .then((response) => {
-        console.log(response.data);
-
-        return { success: true, message: response.data.message };
-      });
+    const response = await axiosInstance.put(`/category/${categoryId}`, values);
+    return { success: true, message: response.data.message };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return { success: false, message: error.response?.data.message };
