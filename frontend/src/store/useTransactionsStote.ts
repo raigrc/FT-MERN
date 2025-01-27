@@ -4,7 +4,7 @@ import { create } from "zustand";
 
 interface ITransactionsStore {
   transactions: BalanceTransactions | null;
-  fetchTransactions: (options: any) => void;
+  fetchTransactions: (options?: any) => void;
 }
 export const useTransactionsStore = create<ITransactionsStore>((set) => ({
   transactions: null,
