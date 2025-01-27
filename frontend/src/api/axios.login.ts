@@ -6,10 +6,10 @@ export const axiosLogin = async (data: LoginSchemaType) => {
   try {
     const response = await axiosInstance.post("/auth/login", data);
 
-    return response;
+    return { success: true, data: response.data };
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      return error.response;
+      return { success: false, message: error.response?.data.message };
     } else {
       console.error("Error during login!", error);
       return null;

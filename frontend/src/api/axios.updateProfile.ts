@@ -7,19 +7,14 @@ export const updateProfile = async (
   data: ProfileSchemaType,
 ) => {
   try {
-    console.log(data);
-
     const response = await axiosInstance.put(`/users/${userId}`, data);
 
-    console.log("User updated successfully", response);
-
-    return { success: true, message: "User updated successfully" };
+    return { success: true, message: response.data.message };
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      return error.response;
+      return { success: false, message: error.response?.data.message };
     } else {
-      console.error("Error during login!", error);
-      return { success: false };
+      return { success: false, message: "Error during login!" };
     }
   }
 };

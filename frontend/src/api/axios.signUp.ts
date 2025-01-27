@@ -5,15 +5,13 @@ import axiosInstance from "./axios.instance";
 export const signUp = async (data: LoginSchemaType) => {
   try {
     const response = await axiosInstance.post("/users", data);
-    console.log(response.data);
 
-    return response.data.message;
+    return { success: true, message: response.data.message };
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      return error.response;
+      return { success: false, message: error.response?.data.message };
     } else {
-      console.error("Error during signup!", error);
-      return null;
+      return { success: false, message: "Error during signup!" };
     }
   }
 };

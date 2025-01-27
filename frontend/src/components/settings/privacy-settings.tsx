@@ -17,6 +17,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { updatePrivacy } from "@/api/axios.updatePrivacy";
 import { useUserStore } from "@/store/useUserStore";
+import { toast } from "sonner";
 
 const PrivacyForm = () => {
   const { user } = useUserStore();
@@ -31,6 +32,7 @@ const PrivacyForm = () => {
         updatePrivacy(user?._id, data).then((response) => {
           if (response?.success) {
             form.reset();
+            toast.success(response.message);
           } else {
             form.resetField("new_password");
             form.resetField("confirm_password");

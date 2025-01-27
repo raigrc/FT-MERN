@@ -16,6 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { toast } from "sonner";
 
 const LoginForm = () => {
   const { setUser } = useUserStore();
@@ -28,12 +29,15 @@ const LoginForm = () => {
   const onSubmit = (values: LoginSchemaType) => {
     startTransition(() => {
       axiosLogin(values).then((response) => {
-        if (!response?.data || response.status !== 200) {
+        if (!response?.success) {
           setError(response?.data.message);
           form.resetField("password");
         } else {
-          setUser(response.data.user);
-          navigate("/dashboard");
+          setUser(response?.data.user);
+          toast.success(response.data.message);
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 2000);
         }
       });
     });

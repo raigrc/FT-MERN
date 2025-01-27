@@ -17,6 +17,7 @@ import {
 } from "@/schema/SettingsSchema";
 import { useUserStore } from "@/store/useUserStore";
 import { updateProfile } from "@/api/axios.updateProfile";
+import { toast } from "sonner";
 
 const ProfileForm = () => {
   const { user } = useUserStore();
@@ -28,12 +29,16 @@ const ProfileForm = () => {
       name: user?.name,
       email: user?.email,
     },
-  });
+  }); 
 
   const onSubmit = (data: ProfileSchemaType) => {
     startTransition(() => {
       try {
-        updateProfile(user?._id, data);
+        updateProfile(user?._id, data).then((response) => {
+          if (response.success) {
+            toast.success(response.message);
+          }
+        });
       } catch (error) {
         console.error("Error updating profile", error);
       }

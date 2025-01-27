@@ -5,9 +5,12 @@ import { useUserStore } from "@/store/useUserStore";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { signOut } from "@/api/axios.signOut";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
-  const { user } = useUserStore();
+  const { user, clearUser } = useUserStore();
+  const navigate = useNavigate();
   return (
     <div className="min-w-[250px] space-y-6 overflow-auto border-r-2 px-2 py-6">
       <SidebarHeader name={user?.name} email={user?.email} />
@@ -26,7 +29,9 @@ const Sidebar = () => {
         onClick={() => {
           signOut().then((response) => {
             if (response.success) {
-              window.location.reload();
+              toast.info(response.message);
+              clearUser();
+              navigate("/login");
             }
           });
         }}

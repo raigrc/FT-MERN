@@ -8,7 +8,6 @@ export const updatePrivacy = async (
 ) => {
   try {
     const response = await axiosInstance.put(`/users/${userId}`, data);
-    console.log(response.data.message);
     return { success: true, message: response.data.message };
   } catch (error) {
     if (axios.isAxiosError(error)) {

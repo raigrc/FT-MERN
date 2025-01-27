@@ -12,13 +12,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signUp } from "@/api/axios.signUp";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   const form = useForm<LoginSchemaType>({ resolver: zodResolver(LoginSchema) });
+  const navigate = useNavigate();
 
   const onSubmit = (values: LoginSchemaType) => {
     signUp(values).then((response) => {
-      console.log(response);
+      if (response.success) {
+        toast(response.message);
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+      }
     });
   };
   return (
