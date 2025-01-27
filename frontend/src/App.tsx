@@ -12,6 +12,7 @@ import TransactionPage from "./pages/TransactionPage";
 import SettingsPage from "./pages/SettingsPage";
 import CategoryId from "./components/category/category";
 import SignupPage from "./pages/SignupPage";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
   const { setUser, clearUser } = useUserStore();
@@ -31,26 +32,29 @@ function App() {
   }, [setUser, clearUser]);
 
   return (
-    <Router>
-      <div className="w-full h-screen">
-        <Routes>
-          <Route element={<AuthRoute />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-          </Route>
+    <>
+      <Router>
+        <div className="h-screen w-full">
+          <Routes>
+            <Route element={<AuthRoute />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+            </Route>
 
-          <Route element={<PrivateRoute />}>
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/budgets" element={<BudgetPage />} />
-            <Route path="/categories" element={<CategoryPage />} />
-            <Route path="/categories/:categoryId" element={<CategoryId />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/budgets" element={<BudgetPage />} />
+              <Route path="/categories" element={<CategoryPage />} />
+              <Route path="/categories/:categoryId" element={<CategoryId />} />
 
-            <Route path="/transactions" element={<TransactionPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-          </Route>
-        </Routes>
-      </div>
-    </Router>
+              <Route path="/transactions" element={<TransactionPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+            </Route>
+          </Routes>
+        </div>
+      </Router>
+      <Toaster richColors />
+    </>
   );
 }
 
