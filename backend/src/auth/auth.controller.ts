@@ -29,7 +29,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
       sameSite: "lax",
     });
 
-    res.status(200).json({ user, token, message: "Login successful!" });
+    res.status(200).json({ user, message: "Login successful!" });
   } catch (error) {
     console.error("Error during login:", error);
   }
