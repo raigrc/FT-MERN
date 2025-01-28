@@ -1,7 +1,10 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://ft-mern-be.vercel.app/api",
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? "https://ft-mern-api.vercel.app/api"
+      : "http://localhost:5000/api",
   headers: {
     "Content-Type": "application/json",
   },
