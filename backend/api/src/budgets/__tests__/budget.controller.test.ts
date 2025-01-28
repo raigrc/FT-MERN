@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import app from "../../app";
+import app from "../..";
 import Budgets from "../budget.model";
 import mongoose from "mongoose";
 

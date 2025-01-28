@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import app from "../../app";
+import app from "../..";
 import Categories from "../categories.model";
 
 const api = supertest(app);
