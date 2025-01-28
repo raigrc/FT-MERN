@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import app from "../../..";
+import app from "../..";
 import User from "../users.model";
 
 // jest.mock("../users.model.ts");
