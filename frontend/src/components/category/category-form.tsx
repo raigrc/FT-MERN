@@ -13,13 +13,14 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 import { SelectValue } from "@radix-ui/react-select";
-import React, { useEffect, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { addCategory } from "@/api/axios.addCategory";
 import { useUserStore } from "@/store/useUserStore";
 import { updateCategory } from "@/api/axios.updateCategory";
 import { useCategoriesStore } from "@/store/useCategoriesStore";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import ErrorMessage from "../auth/error-message";
 interface CategoryFormProps {
   initialValues?: Partial<ICategorySchema>;
   mode: "create" | "update";
@@ -38,6 +39,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   const [isPending, startTransition] = useTransition();
   const { user } = useUserStore();
   const { fetchCategories } = useCategoriesStore();
+  const [error, setError] = useState("");
 
   const onSubmit = (values: ICategorySchema) => {
     startTransition(() => {
@@ -53,6 +55,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
               toast.success(response.message, {
                 description: format(new Date(), "PPpp"),
               });
+            } else {
+              setError(response.message);
             }
           })
         : updateCategory(values, categoryId).then((response) => {
@@ -61,6 +65,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
               toast.success(response.message, {
                 description: format(new Date(), "PPpp"),
               });
+            } else {
+              setError(response.message);
             }
           });
     });
@@ -120,6 +126,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             </FormItem>
           )}
         />
+
+        <ErrorMessage message={error} />
 
         <Button className="w-full">
           {isPending

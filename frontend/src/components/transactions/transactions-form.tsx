@@ -59,6 +59,8 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
               toast.success(response.message, {
                 description: format(new Date(), "PPpp"),
               });
+            } else {
+              setError(response.message)
             }
           })
         : updateTransaction(values, transactionId).then((response) => {
@@ -68,6 +70,8 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
               toast.success(response.message, {
                 description: format(new Date(), "PPpp"),
               });
+            }else {
+              setError(response.message)
             }
           });
     });
