@@ -11,6 +11,7 @@ import categoryRoutes from "./src/categories/categories.routes";
 import budgetRoutes from "./src/budgets/budget.routes";
 import balanceRoutes from "./src/balance/balance.routes";
 import transactionRoutes from "./src/transactions/transaction.routes";
+import mongoose from "mongoose";
 
 dotenv.config();
 const app = express();
@@ -30,5 +31,15 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/budgets", budgetRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/balance", balanceRoutes);
+
+const PORT = process.env.PORT || 5000;
+
+mongoose
+  .connect(process.env.MONGO_URI || "")
+  .then(() =>
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+  )
+  .catch((error) => console.log(error));
+
 
 export default app;
