@@ -1,16 +1,16 @@
 import express from "express";
 import cors from "cors";
-import passport from "./config/passport.config";
+import passport from "../src/config/passport.config";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 
 //routes
-import userRoutes from "./users/users.routes";
-import authRoutes from "./auth/auth.route";
-import categoryRoutes from "./categories/categories.routes";
-import budgetRoutes from "./budgets/budget.routes";
-import balanceRoutes from "./balance/balance.routes";
-import transactionRoutes from "./transactions/transaction.routes";
+import userRoutes from "../src/users/users.routes";
+import authRoutes from "../src/auth/auth.route";
+import categoryRoutes from "../src/categories/categories.routes";
+import budgetRoutes from "../src/budgets/budget.routes";
+import balanceRoutes from "../src/balance/balance.routes";
+import transactionRoutes from "../src/transactions/transaction.routes";
 
 dotenv.config();
 const app = express();
