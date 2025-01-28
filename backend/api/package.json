@@ -6,7 +6,8 @@
     "start": "ts-node ./src/server.ts",
     "dev": "ts-node-dev ./src/server.ts",
     "start:nodemon": "nodemon --verbose",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

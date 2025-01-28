@@ -1,3 +1,4 @@
 #ignore environment and node_modules file
 .env
 node_modules
+dist
