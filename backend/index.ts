@@ -17,7 +17,7 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: ["https://ft-mern-client.vercel.app", "http://localhost:5713"],
+    origin: ["https://ft-mern-client.vercel.app", "http://localhost:5173"],
     credentials: true,
   })
 );
