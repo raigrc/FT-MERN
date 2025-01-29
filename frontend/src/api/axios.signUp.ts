@@ -1,8 +1,8 @@
-import { LoginSchemaType } from "@/schema/LoginSchema";
 import axios from "axios";
 import axiosInstance from "./axios.instance";
+import { SignupSchemaType } from "@/schema/AuthSchema";
 
-export const signUp = async (data: LoginSchemaType) => {
+export const signUp = async (data: SignupSchemaType) => {
   try {
     const response = await axiosInstance.post("/users", data);
 

@@ -2,7 +2,6 @@ import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema, LoginSchemaType } from "@/schema/LoginSchema";
 import ErrorMessage from "../error-message";
 import { useState, useTransition } from "react";
 import { axiosLogin } from "@/api/axios.login";
@@ -17,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "sonner";
+import { LoginSchema, LoginSchemaType } from "@/schema/AuthSchema";
 
 const LoginForm = () => {
   const { setUser } = useUserStore();
@@ -29,15 +29,17 @@ const LoginForm = () => {
   const onSubmit = (values: LoginSchemaType) => {
     startTransition(() => {
       axiosLogin(values).then((response) => {
-        if (!response?.success) {
-          setError(response?.data.message);
-          form.resetField("password");
-        } else {
+        if (response.success) {
           setUser(response?.data.user);
           toast.success(response.data.message);
           setTimeout(() => {
             navigate("/dashboard");
           }, 2000);
+        } else {
+          console.log(response);
+
+          setError(response?.message);
+          form.resetField("password");
         }
       });
     });
@@ -107,11 +109,11 @@ const LoginForm = () => {
             )}
           </div>
         </div> */}
+        <ErrorMessage message={error} />
 
         <Button className="w-full" type="submit" disabled={isPending}>
           {isPending ? "Loading..." : "Login"}
         </Button>
-        <ErrorMessage message={error} />
       </form>
     </Form>
   );
