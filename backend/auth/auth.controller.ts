@@ -23,10 +23,10 @@ export const login = async (req: Request, res: Response): Promise<any> => {
     });
 
     res.cookie("token", token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === "production", // Ensure this is true in production
       maxAge: 3600000, // 1 hour
-      sameSite: 'none',
+      sameSite: "lax",
     });
 
     res.status(200).json({ user, token, message: "Login successful!" });
