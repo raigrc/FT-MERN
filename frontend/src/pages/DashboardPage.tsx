@@ -23,8 +23,6 @@ const DashboardPage = () => {
     options("", { params: { limit: 5 } }),
   );
 
-  console.log(transactionData);
-
   return (
     <PrivateLayout>
       <PrivateHeader>

@@ -9,7 +9,6 @@ const UpdateTransaction = ({ _id }: { _id: string | undefined }) => {
     options,
   );
 
-  console.log(data);
   return (
     <>
       <TransactionForm

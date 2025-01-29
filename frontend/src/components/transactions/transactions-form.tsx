@@ -47,7 +47,6 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
   });
 
   const onSubmit = (values: TransactionSchemaType) => {
-    console.log(values);
     startTransition(() => {
       const userId = user?._id;
 
@@ -60,7 +59,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
                 description: format(new Date(), "PPpp"),
               });
             } else {
-              setError(response.message)
+              setError(response.message);
             }
           })
         : updateTransaction(values, transactionId).then((response) => {
@@ -70,8 +69,8 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
               toast.success(response.message, {
                 description: format(new Date(), "PPpp"),
               });
-            }else {
-              setError(response.message)
+            } else {
+              setError(response.message);
             }
           });
     });

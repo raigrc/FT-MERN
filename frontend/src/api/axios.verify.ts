@@ -5,7 +5,6 @@ export const verify = async () => {
     const response = await axiosInstance.get("/auth/verify", {
       withCredentials: true,
     });
-    console.log(response);
 
     return response.data.user;
   } catch (error) {

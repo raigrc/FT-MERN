@@ -40,8 +40,6 @@ const DashboardChart = () => {
     };
   });
 
-  console.log(formattedDate);
-
   const chartConfig = {
     income: { label: "Income", color: "hsl(var(--primary))" },
     expense: { label: "Expense", color: "hsl(var(--destructive))" },

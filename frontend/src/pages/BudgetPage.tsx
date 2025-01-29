@@ -13,9 +13,6 @@ import { useEffect } from "react";
 
 const BudgetPage = () => {
   const { budgets, fetchBudgets } = useBudgetsStore();
-  // const { data } = useFetch<BalanceBudgetsType[]>("/balance/budgets", options);
-
-  console.log(budgets);
 
   useEffect(() => {
     fetchBudgets();

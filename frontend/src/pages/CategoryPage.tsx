@@ -21,8 +21,6 @@ const CategoryPage = () => {
     fetchCategories();
   }, []);
 
-  console.log(categories);
-
   return (
     <>
       <PrivateLayout>

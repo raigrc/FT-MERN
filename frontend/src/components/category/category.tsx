@@ -21,8 +21,6 @@ const CategoryId = () => {
     options(categoryId),
   );
 
-  console.log(data);
-
   return (
     <>
       {data?.map((category) => (

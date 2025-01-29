@@ -29,11 +29,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   const { fetchCategories } = useCategoriesStore();
   const handleDel = (id: string) => {
     deleteCategoryById(id).then((response) => {
-      console.log(response);
-
       if (response?.success) {
         toast.error(response.message);
         fetchCategories();
+      } else {
+        toast.error(response.message);
       }
     });
   };

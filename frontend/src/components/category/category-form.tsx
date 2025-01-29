@@ -44,12 +44,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   const onSubmit = (values: ICategorySchema) => {
     startTransition(() => {
       const userId = user?._id;
-      console.log(values);
 
       mode === "create"
         ? addCategory(userId, values).then((response) => {
-            console.log({ response });
-
             if (response?.success) {
               fetchCategories();
               toast.success(response.message, {

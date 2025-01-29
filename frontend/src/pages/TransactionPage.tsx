@@ -21,15 +21,17 @@ const TransactionPage = () => {
     fetchTransactions({ page: page });
   }, [page]);
 
-  console.log(transactions);
-
   return (
     <PrivateLayout>
       <PrivateHeader className="space-y-4">
         <PrivateTitle>Transactions</PrivateTitle>
         <div className="flex items-center justify-start space-x-4">
-          <FilterSearch onHandleChange={(e)=> fetchTransactions({search: e})} placeholder="search for description"/>
-          <AddTransaction/> </div>
+          <FilterSearch
+            onHandleChange={(e) => fetchTransactions({ search: e })}
+            placeholder="search for description"
+          />
+          <AddTransaction />{" "}
+        </div>
       </PrivateHeader>
       <PrivateContent className="flex flex-col h-full">
         <Table>
