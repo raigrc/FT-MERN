@@ -14,19 +14,31 @@ import { signUp } from "@/api/axios.signUp";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { SignupSchema, SignupSchemaType } from "@/schema/AuthSchema";
+import { useState, useTransition } from "react";
+import ErrorMessage from "../error-message";
+import LoadingState from "@/components/shared/loading";
 
 const SignupForm = () => {
-  const form = useForm<SignupSchemaType>({ resolver: zodResolver(SignupSchema) });
+  const form = useForm<SignupSchemaType>({
+    resolver: zodResolver(SignupSchema),
+  });
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const onSubmit = (values: SignupSchemaType) => {
-    signUp(values).then((response) => {
-      if (response.success) {
-        toast(response.message);
-        setTimeout(() => {
-          navigate("/login");
-        }, 1000);
-      }
+    setError("");
+    startTransition(() => {
+      signUp(values).then((response) => {
+        if (response.success) {
+          toast(response.message);
+          setTimeout(() => {
+            navigate("/login");
+          }, 1000);
+        } else {
+          setError(response.message);
+        }
+      });
     });
   };
   return (
@@ -34,12 +46,16 @@ const SignupForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name='name'
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="ex: Juan Dela Cruz" {...field} />
+                <Input
+                  placeholder="ex: Juan Dela Cruz"
+                  disabled={isPending}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -52,7 +68,12 @@ const SignupForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="example@gmail.com" {...field} />
+                <Input
+                  type="email"
+                  placeholder="example@gmail.com"
+                  disabled={isPending}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -65,14 +86,22 @@ const SignupForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" {...field} />
+                <Input type="password" disabled={isPending} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <ErrorMessage message={error} />
         <Button type="submit" className="w-full">
-          Sign up
+          {isPending ? (
+            <>
+              <LoadingState>Signing in...</LoadingState>
+            </>
+          ) : (
+            "Sign up"
+          )}
         </Button>
       </form>
     </Form>

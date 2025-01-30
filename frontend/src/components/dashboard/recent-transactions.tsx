@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 
 const RecentTransactions = ({ data }: { data: BalanceTransactions | null }) => {
   return (
-    <Card className="w-2/5">
+    <Card className="w-full lg:w-2/5">
       <CardHeader>
         <CardTitle>Recent Transactions</CardTitle>
       </CardHeader>

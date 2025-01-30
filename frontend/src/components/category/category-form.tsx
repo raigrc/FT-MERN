@@ -21,6 +21,7 @@ import { useCategoriesStore } from "@/store/useCategoriesStore";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import ErrorMessage from "../auth/error-message";
+import LoadingState from "../shared/loading";
 interface CategoryFormProps {
   initialValues?: Partial<ICategorySchema>;
   mode: "create" | "update";
@@ -108,7 +109,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                 disabled={isPending}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger disabled={isPending}>
                     <SelectValue placeholder="Select Type" />
                   </SelectTrigger>
                 </FormControl>
@@ -126,12 +127,18 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
         <ErrorMessage message={error} />
 
-        <Button className="w-full">
-          {isPending
-            ? "Loading..."
-            : mode === "create"
-              ? "Add Category"
-              : "Update Category"}
+        <Button className="w-full" disabled={isPending}>
+          {isPending ? (
+            <>
+              <LoadingState>
+                {mode === "create" ? "Adding category..." : "Updating category..."}
+              </LoadingState>
+            </>
+          ) : mode === "create" ? (
+            "Add Category"
+          ) : (
+            "Update Category"
+          )}
         </Button>
       </form>
     </Form>

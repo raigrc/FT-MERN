@@ -26,6 +26,7 @@ import ErrorMessage from "../auth/error-message";
 import { updateBudget } from "@/api/axios.updateBudget";
 import { useBudgetsStore } from "@/store/useBudgetsStore";
 import { toast } from "sonner";
+import LoadingState from "../shared/loading";
 
 interface BudgetFormProps {
   initialValues?: Partial<BudgetSchemaType>;
@@ -49,6 +50,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
   });
 
   const onSubmit = (values: BudgetSchemaType) => {
+    setError("");
     startTransition(() => {
       const userId = user?._id;
 
@@ -95,6 +97,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
                 onChange={field.onChange}
                 defaultValue={field.value}
                 type="expense"
+                disabled={isPending}
               />
               <FormMessage />
             </FormItem>
@@ -108,7 +111,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
             <FormItem>
               <FormLabel>Amount</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input placeholder="500" {...field} disabled={isPending} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -126,6 +129,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
                   <Button
                     variant="outline"
                     className={!field.value ? "text-muted-foreground" : ""}
+                    disabled={isPending}
                   >
                     {field.value ? format(field.value, "PPP") : "Pick a date"}
                   </Button>
@@ -158,6 +162,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
                   <Button
                     variant="outline"
                     className={!field.value ? "text-muted-foreground" : ""}
+                    disabled={isPending}
                   >
                     {field.value ? format(field.value, "PPP") : "Pick a date"}
                   </Button>
@@ -177,12 +182,18 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
           )}
         />
         <ErrorMessage message={error} />
-        <Button className="w-full" type="submit">
-          {isPending
-            ? "Loading..."
-            : mode === "create"
-              ? "Add Budget"
-              : "Update Budget"}
+        <Button className="w-full" type="submit" disabled={isPending}>
+          {isPending ? (
+            <>
+              <LoadingState>
+                {mode === "create" ? "Adding Budget..." : "Updating Budget..."}
+              </LoadingState>
+            </>
+          ) : mode === "create" ? (
+            "Add Budget"
+          ) : (
+            "Update Budget"
+          )}
         </Button>
       </form>
     </Form>

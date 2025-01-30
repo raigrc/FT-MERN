@@ -18,6 +18,7 @@ import { Button } from "../ui/button";
 import { updatePrivacy } from "@/api/axios.updatePrivacy";
 import { useUserStore } from "@/store/useUserStore";
 import { toast } from "sonner";
+import LoadingState from "../shared/loading";
 
 const PrivacyForm = () => {
   const { user } = useUserStore();
@@ -85,7 +86,15 @@ const PrivacyForm = () => {
             </FormItem>
           )}
         />
-        <Button>Update Password</Button>
+        <Button>
+          {isPending ? (
+            <>
+              <LoadingState>Updating password...</LoadingState>
+            </>
+          ) : (
+            "Update Password"
+          )}
+        </Button>
       </form>
     </Form>
   );

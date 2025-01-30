@@ -24,6 +24,7 @@ import { updateTransaction } from "@/api/axios.updateTransaction";
 import { useTransactionsStore } from "@/store/useTransactionsStote";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import LoadingState from "../shared/loading";
 
 interface TransactionFormProps {
   initialValues?: Partial<TransactionSchemaType>;
@@ -47,6 +48,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
   });
 
   const onSubmit = (values: TransactionSchemaType) => {
+    setError("");
     startTransition(() => {
       const userId = user?._id;
 
@@ -95,7 +97,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
                 onChange={field.onChange}
                 defaultValue={field.value}
                 selectValue={field.value}
-                // disabled={mode === "update" || isPending}
+                disabled={isPending}
               />
               <FormMessage />
             </FormItem>
@@ -109,7 +111,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
             <FormItem>
               <FormLabel>Amount</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input placeholder="500" {...field} disabled={isPending} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -123,7 +125,12 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea {...field} className="resize-none" rows={5} />
+                <Textarea
+                  {...field}
+                  className="resize-none"
+                  rows={5}
+                  disabled={isPending}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -132,11 +139,19 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         <ErrorMessage message={error} />
         <div className="w-full text-right">
           <Button type="submit">
-            {isPending
-              ? "Loading..."
-              : mode === "create"
-                ? "Add Transaction"
-                : "Update Transaction"}
+            {isPending ? (
+              <>
+                <LoadingState>
+                  {mode === "create"
+                    ? "Adding transaction..."
+                    : "Updating transaction..."}
+                </LoadingState>
+              </>
+            ) : mode === "create" ? (
+              "Add Transaction"
+            ) : (
+              "Update Transaction"
+            )}
           </Button>
         </div>
       </form>

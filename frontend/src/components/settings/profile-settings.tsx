@@ -1,4 +1,4 @@
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import {
   Form,
   FormControl,
@@ -18,18 +18,21 @@ import {
 import { useUserStore } from "@/store/useUserStore";
 import { updateProfile } from "@/api/axios.updateProfile";
 import { toast } from "sonner";
+import ErrorMessage from "../auth/error-message";
+import LoadingState from "../shared/loading";
 
 const ProfileForm = () => {
   const { user } = useUserStore();
 
   const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState("");
   const form = useForm<ProfileSchemaType>({
     resolver: zodResolver(ProfileSettingSchema),
     defaultValues: {
       name: user?.name,
       email: user?.email,
     },
-  }); 
+  });
 
   const onSubmit = (data: ProfileSchemaType) => {
     startTransition(() => {
@@ -37,6 +40,8 @@ const ProfileForm = () => {
         updateProfile(user?._id, data).then((response) => {
           if (response.success) {
             toast.success(response.message);
+          } else {
+            setError(response.message);
           }
         });
       } catch (error) {
@@ -73,7 +78,16 @@ const ProfileForm = () => {
             </FormItem>
           )}
         />
-        <Button>Update Profile</Button>
+        <ErrorMessage message={error} />
+        <Button>
+          {isPending ? (
+            <>
+              <LoadingState>Updating profile...</LoadingState>
+            </>
+          ) : (
+            "Update Profile"
+          )}
+        </Button>
       </form>
     </Form>
   );

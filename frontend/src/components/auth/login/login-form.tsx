@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { toast } from "sonner";
 import { LoginSchema, LoginSchemaType } from "@/schema/AuthSchema";
+import LoadingState from "@/components/shared/loading";
 
 const LoginForm = () => {
   const { setUser } = useUserStore();
@@ -27,6 +28,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const onSubmit = (values: LoginSchemaType) => {
+    setError("");
     startTransition(() => {
       axiosLogin(values).then((response) => {
         if (response.success) {
@@ -112,7 +114,13 @@ const LoginForm = () => {
         <ErrorMessage message={error} />
 
         <Button className="w-full" type="submit" disabled={isPending}>
-          {isPending ? "Loading..." : "Login"}
+          {isPending ? (
+            <>
+              <LoadingState>Logging in...</LoadingState>
+            </>
+          ) : (
+            "Login"
+          )}
         </Button>
       </form>
     </Form>
