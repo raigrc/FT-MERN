@@ -45,7 +45,7 @@ const DashboardChart = () => {
     expense: { label: "Expense", color: "hsl(var(--destructive))" },
   } satisfies ChartConfig;
   return (
-    <Card className="w-3/5">
+    <Card className="w-full lg:w-3/5">
       <CardHeader>
         <CardTitle>Overview</CardTitle>
       </CardHeader>

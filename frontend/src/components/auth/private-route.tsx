@@ -6,14 +6,14 @@ const PrivateRoute = () => {
   const { user, loading } = useUserStore();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>; 
   }
 
   if (!user) {
     return <Navigate to="/login" />;
   }
   return (
-    <div className="flex flex-row justify-between h-full">
+    <div className="flex flex-col items-center justify-start h-full lg:flex-row lg:justify-between">
       <Sidebar />
       <Outlet />
     </div>

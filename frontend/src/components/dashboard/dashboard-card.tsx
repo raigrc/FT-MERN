@@ -13,7 +13,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   amount = 0,
 }) => {
   return (
-    <Card className="w-full">
+    <Card className="h-full min-w-[250px] md:w-full">
       <CardHeader>
         <div className="flex items-center justify-between text-sm">
           {title}

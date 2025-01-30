@@ -28,27 +28,30 @@ const DashboardPage = () => {
       <PrivateHeader>
         <PrivateTitle>Dashboard</PrivateTitle>
       </PrivateHeader>
-      <PrivateContent className="flex flex-col space-y-4">
-        <div className="flex items-center justify-between space-x-4">
-          <IconContext.Provider value={{ size: "24" }}>
-            <DashboardCard
-              title="Total Balance"
-              icon={<CiMoneyBill />}
-              amount={balanceData?.totalBalance}
-            />
-            <DashboardCard
-              title="Expenses"
-              icon={<LuCreditCard />}
-              amount={balanceData?.totalExpense}
-            />
-            <DashboardCard
-              title="Savings"
-              icon={<TbPigMoney />}
-              amount={balanceData?.totalSavings}
-            />
-          </IconContext.Provider>
+      <PrivateContent className="no-scrollbar flex flex-col space-y-4 overflow-auto">
+        {/* container for overflow to work */}
+        <div>
+          <div className="no-scrollbar flex items-center justify-between space-x-4 overflow-x-auto">
+            <IconContext.Provider value={{ size: "24" }}>
+              <DashboardCard
+                title="Total Balance"
+                icon={<CiMoneyBill />}
+                amount={balanceData?.totalBalance}
+              />
+              <DashboardCard
+                title="Expenses"
+                icon={<LuCreditCard />}
+                amount={balanceData?.totalExpense}
+              />
+              <DashboardCard
+                title="Savings"
+                icon={<TbPigMoney />}
+                amount={balanceData?.totalSavings}
+              />
+            </IconContext.Provider>
+          </div>
         </div>
-        <div className="flex justify-between gap-4">
+        <div className="flex w-full flex-col justify-between gap-4 lg:flex-row">
           <DashboardChart />
           <RecentTransactions data={transactionData} />
         </div>

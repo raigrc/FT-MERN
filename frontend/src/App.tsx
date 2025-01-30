@@ -13,6 +13,7 @@ import SettingsPage from "./pages/SettingsPage";
 import CategoryId from "./components/category/category";
 import SignupPage from "./pages/SignupPage";
 import { Toaster } from "@/components/ui/sonner";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   const { setUser, clearUser } = useUserStore();
@@ -34,8 +35,9 @@ function App() {
   return (
     <>
       <Router>
-        <div className="h-screen w-full">
+        <div className="w-full h-screen">
           <Routes>
+            <Route path="/" element={<LandingPage />} />
             <Route element={<AuthRoute />}>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
