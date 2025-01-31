@@ -14,9 +14,12 @@ import CategoryId from "./components/category/category";
 import SignupPage from "./pages/SignupPage";
 import { Toaster } from "@/components/ui/sonner";
 import LandingPage from "./pages/LandingPage";
+import { setAuthToken } from "./api/axios.instance";
 
 function App() {
   const { setUser, clearUser } = useUserStore();
+  const token = localStorage.getItem("token");
+  setAuthToken(token);
 
   //check if user is authenticated and restore the user data
   useEffect(() => {

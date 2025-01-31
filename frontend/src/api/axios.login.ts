@@ -1,10 +1,15 @@
 import { LoginSchemaType } from "@/schema/AuthSchema";
-import axiosInstance from "./axios.instance";
+import axiosInstance, { setAuthToken } from "./axios.instance";
 import axios from "axios";
 
 export const axiosLogin = async (data: LoginSchemaType) => {
   try {
     const response = await axiosInstance.post("/auth/login", data);
+
+    if (response.data.token) {
+      localStorage.setItem("token", response.data.token);
+      setAuthToken(response.data.token);
+    }
 
     return {
       success: true,
