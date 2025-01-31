@@ -16,7 +16,7 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
   return (
     <>
       <Input
-        className="w-auto"
+        className="w-full md:w-auto"
         onChange={handleChange}
         placeholder={placeholder}
       />

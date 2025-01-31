@@ -18,7 +18,7 @@ const NavigationSmall = ({
 }) => {
   return (
     <>
-      <div className="just-between flex w-full flex-row items-center">
+      <div className="flex flex-row items-center w-full p-4 just-between">
         <Sheet>
           <SheetTrigger>
             <IoMenu size={32} />

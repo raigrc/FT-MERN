@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 const NavigationMeidum = () => {
   return (
     <>
-      <NavigationMenu>
+      <NavigationMenu className="py-2">
         <NavigationMenuList>
           <NavigationMenuItem>
             {items.map((item) => (

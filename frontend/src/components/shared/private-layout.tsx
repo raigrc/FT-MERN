@@ -6,7 +6,7 @@ const PrivateLayout = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={`no-scrollbar flex h-full w-full flex-col overflow-auto p-6 ${className}`}
+    className={`no-scrollbar flex h-full w-full flex-col overflow-auto lg:p-6 px-2 ${className}`}
     {...props}
   />
 ));
