@@ -23,7 +23,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
     });
 
     res.cookie("token", token, {
-      httpOnly: process.env.NODE_ENV === "production",
+      httpOnly: process.env.NODE_ENV === "production" ? false : true,
       secure: process.env.NODE_ENV === "production", // Ensure this is true in production
       maxAge: 3600000, // 1 hour
       sameSite: "lax",
