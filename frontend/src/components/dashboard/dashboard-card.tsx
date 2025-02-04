@@ -2,11 +2,8 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/format-currency";
 import CountUp from "react-countup";
-interface DashboardCardProps {
-  title: string;
-  icon: React.ReactNode;
-  amount?: number;
-}
+import { DashboardCardProps } from "@/types/dashboard-types";
+
 const DashboardCard: React.FC<DashboardCardProps> = ({
   title,
   icon,
