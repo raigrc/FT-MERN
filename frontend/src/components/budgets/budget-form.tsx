@@ -126,13 +126,15 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
               <FormLabel>Start Date</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={!field.value ? "text-muted-foreground" : ""}
-                    disabled={isPending}
-                  >
-                    {field.value ? format(field.value, "PPP") : "Pick a date"}
-                  </Button>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      className={!field.value ? "text-muted-foreground" : ""}
+                      disabled={isPending}
+                    >
+                      {field.value ? format(field.value, "PPP") : "Pick a date"}
+                    </Button>
+                  </FormControl>
                 </PopoverTrigger>
                 <PopoverContent>
                   <Calendar
@@ -159,13 +161,15 @@ const BudgetForm: React.FC<BudgetFormProps> = ({
               <FormLabel>End Date</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={!field.value ? "text-muted-foreground" : ""}
-                    disabled={isPending}
-                  >
-                    {field.value ? format(field.value, "PPP") : "Pick a date"}
-                  </Button>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      className={!field.value ? "text-muted-foreground" : ""}
+                      disabled={isPending}
+                    >
+                      {field.value ? format(field.value, "PPP") : "Pick a date"}
+                    </Button>
+                  </FormControl>
                 </PopoverTrigger>
                 <PopoverContent>
                   <Calendar

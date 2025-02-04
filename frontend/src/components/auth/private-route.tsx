@@ -1,12 +1,13 @@
 import { useUserStore } from "@/store/useUserStore";
 import { Navigate, Outlet } from "react-router-dom";
 import Sidebar from "../sidebar/sidebar";
+import LoadingState from "../shared/loading";
 
 const PrivateRoute = () => {
   const { user, loading } = useUserStore();
 
   if (loading) {
-    return <div>Loading...</div>; 
+    return <LoadingState />;
   }
 
   if (!user) {

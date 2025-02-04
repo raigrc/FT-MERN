@@ -6,7 +6,6 @@ import ErrorMessage from "../error-message";
 import { useState, useTransition } from "react";
 import { axiosLogin } from "@/api/axios.login";
 import { useUserStore } from "@/store/useUserStore";
-import { useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -25,7 +24,6 @@ const LoginForm = () => {
   const form = useForm<LoginSchemaType>({ resolver: zodResolver(LoginSchema) });
 
   const [isPending, startTransition] = useTransition();
-  const navigate = useNavigate();
 
   const onSubmit = (values: LoginSchemaType) => {
     setError("");
@@ -34,9 +32,7 @@ const LoginForm = () => {
         if (response.success) {
           setUser(response?.data.user);
           toast.success(response.data.message);
-          setTimeout(() => {
-            navigate("/dashboard");
-          }, 2000);
+          location.reload();
         } else {
           console.log(response);
 

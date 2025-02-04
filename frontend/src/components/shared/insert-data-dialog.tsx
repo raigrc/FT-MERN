@@ -16,7 +16,7 @@ const InsertData: React.FC<InsertDataProps> = ({
   children,
 }) => {
   return (
-    <Dialog>
+    <Dialog modal={false}>
       <DialogTrigger>
         <Button>
           <CiCirclePlus />
